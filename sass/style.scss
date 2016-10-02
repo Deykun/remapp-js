@@ -1,0 +1,62 @@
+@import 'variables';
+
+*, html, body, p {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body, button {
+	font-family: 'Josefin Sans', sans-serif;
+	color: $color2;
+}
+
+h1 {
+	position: fixed;
+	z-index: 100;
+	top: 5px;
+	left: 5px;
+	background-color: #fff;
+}
+
+h1 span {
+	font-weight: 300;
+}
+
+#add-tracks {
+	display: none;
+}
+
+.tracks {
+	position: fixed;
+	right: 15px;
+	top:15px;
+
+	width: 40%;
+	min-width: 300px;
+	max-width: 700px;
+
+	padding: 10px;
+
+	background-color: $color1;
+	border: 2px solid $color2;
+	border-radius: 3px;
+
+	ul {
+		min-height: 70px;
+		max-height: 40vh;
+
+		overflow-x: hidden;
+		overflow-y: hidden;
+		&:hover {
+			overflow-y: scroll;
+			}
+		li {
+			font-size: 14px;
+			padding: 5px;
+			&.complete {
+				font-size: 15px;
+			}
+		}
+	}
+}
