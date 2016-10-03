@@ -1,0 +1,87 @@
+/* rotation duration */
+*, html, body, p {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box; }
+
+body, button {
+  font-family: 'Josefin Sans', sans-serif;
+  color: #79931d; }
+
+.menu {
+  position: fixed;
+  right: 10px;
+  top: 10px; }
+
+h1 {
+  float: left;
+  margin-right: 20px; }
+
+h1 span {
+  font-weight: 300; }
+
+#add-tracks {
+  display: none; }
+
+.options {
+  float: right;
+  cursor: pointer;
+  width: 150px;
+  border: 3px solid #79931d;
+  border-radius: 25px;
+  color: #fff;
+  background-color: #79931d;
+  transition: .5s; }
+  .options h3 {
+    text-align: center;
+    line-height: 44px; }
+  .options .tracks {
+    padding: 10px;
+    display: none; }
+  .options:hover, .options.selected {
+    width: 30vw;
+    min-width: 250px;
+    max-width: 600px;
+    color: #79931d;
+    background-color: #fff; }
+  .options.selected {
+    cursor: default;
+    border-radius: 5px; }
+    .options.selected h3 {
+      cursor: pointer; }
+  .options ul {
+    margin: 10px;
+    min-height: 70px;
+    max-height: 40vh;
+    overflow-x: hidden;
+    overflow-y: hidden; }
+    .options ul:hover {
+      overflow-y: scroll;
+      margin-right: 0; }
+    .options ul li {
+      position: relative;
+      margin-right: 20px;
+      font-size: 11px;
+      padding: 5px 0;
+      border-bottom: 1px solid #79931d;
+      transition: .5s; }
+      .options ul li button {
+        position: absolute;
+        top: 0;
+        left: -50px;
+        width: 50px;
+        transition: .5s; }
+      .options ul li:hover {
+        padding-left: 55px; }
+        .options ul li:hover button {
+          left: 0; }
+      .options ul li:last-child {
+        border-bottom: 0px; }
+      .options ul li.complete {
+        font-size: 13px; }
+
+#map {
+  width: 100vw;
+  height: 100vh; }
+
+/*# sourceMappingURL=gui.css.map */

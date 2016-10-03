@@ -1,0 +1,124 @@
+@import 'variables';
+
+*, html, body, p {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body, button {
+	font-family: 'Josefin Sans', sans-serif;
+	color: $color2;
+}
+
+.menu {
+	position: fixed;
+	right: 10px;
+	top:10px;
+}
+
+h1 {
+	float:left;
+	margin-right: 20px;
+}
+
+h1 span {
+	font-weight: 300;
+}
+
+#add-tracks {
+	display: none;
+}
+
+.options {
+	float:right;
+
+	cursor: pointer;
+	width: 150px;
+	border: 3px solid $color2;
+	border-radius: 25px;
+
+	color: $color1;
+	background-color: $color2;
+
+	transition: .5s;
+
+	h3 {
+		text-align: center;
+		line-height: 44px;
+	}
+
+	.tracks {
+		padding: 10px;
+		display: none;
+	}
+
+	&:hover, &.selected {
+		width: 30vw;
+		min-width: 250px;
+		max-width: 600px;
+
+		color: $color2;
+		background-color: $color1;
+	}
+	&.selected {
+		cursor: default;
+		border-radius: 5px;
+
+		h3 {
+			cursor: pointer;
+		}
+	}
+
+	ul {
+		margin: 10px;
+		min-height: 70px;
+		max-height: 40vh;
+
+		overflow-x: hidden;
+		overflow-y: hidden;
+		&:hover {
+			overflow-y: scroll;
+			margin-right: 0;
+			}
+		li {
+			position: relative;
+
+			margin-right: 20px;
+
+			font-size: 11px;
+			padding: 5px 0;
+			border-bottom: 1px solid $color2;
+
+			transition: .5s;
+
+			button {
+				position: absolute;
+				top: 0;
+				left: -50px;
+
+				width: 50px;
+
+				transition: .5s;
+			}
+			&:hover {
+				padding-left: 55px;
+				button {
+					left: 0;
+				}
+			}
+
+			&:last-child {
+				border-bottom: 0px;
+			}
+			&.complete {
+				font-size: 13px;
+			}
+		}
+	}
+}
+
+#map {
+	width: 100vw;
+  height: 100vh;
+}
