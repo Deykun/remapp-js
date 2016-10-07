@@ -1,3 +1,17 @@
+/* Obiekty */
+colors = {
+  hour: ['#35165c', '#4d2a7a' ,'#684498' ,'#7d61a2', '#7e7b8e', '#7c976b', '#75b23f', '#74c31a', '#73c400', '#849700', '#9e4600', '#b80b00', '#cd0d07', '#dc561f', '#e9b93b', '#f0ec47', '#f1e63c', '#f1bf21', '#f18c08', '#e16800', '#bf500c', '#8f3921', '#5b223b', '#331250'],
+
+	day: ['#f4960f', '#12bcd1', '#179d90', '#52ac57', '#8abd51', '#c4d33e', '#f4ba10'],
+	dayName: [ 'niedziela', 'poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota'],
+
+	month: ['#12bcd1', '#179d90', '#52ac57', '#8abd51', '#c4d33e', '#f4ba10', '#f4960f', '#f15b2a', '#e03b38', '#9d33b0', '#6c43b4', '#2a93e9'],
+  monthName: [ 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'sierpień', 'wrzesień', 'październik', 'listopad', 'grudzień'],
+
+	year: ['#f4960f', '#0ba9cc', '#795046', '#9ec83e', '#f8971b', '#db4436', '#4186f0', '#7c3592']
+}
+
+/* Mapa */
 mapstyle = [
   {
     "elementType": "geometry",

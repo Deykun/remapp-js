@@ -2,30 +2,50 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>remapp 0.3</title>
+	<title>remapp 0.4</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
+	<link href="css\flaticon\flaticon.css" rel="stylesheet">
 	<link href="css\gui.css" rel="stylesheet">
 </head>
 <body>
 	<div id="map"></div>
 
-	<div class="menu">
-		<h1><span>re</span>mapp</h1>
-		<div class="options">
-			<h3 id="op">trasy</h3>
-			<div class="tracks">
-				<input id="add-tracks" type="file" multiple>
-				<label for="add-tracks">Dodaj trasy</label> <span id="status-tracks"></span>
-				<ul id="tracks">
-				</ul>
-				<button onclick="initMap()">Mapa</button> <button onclick="changeRange()">Zakres</button>
+	<div class="remapp">
+		<header>
+			<h1><span>re</span>mapp</h1>
+		</header>
+		<nav>
+			<div class="options box">
+				<h3 id="tr">trasy</h3>
+				<div class="tracks">
+					<input id="add-tracks" type="file" multiple>
+					<label for="add-tracks"><i class="flaticon-folder"></i> Dodaj trasy </label> <span id="status-tracks"></span>
+					<section class="scroll">
+						<ul id="tracks">
+						</ul>
+					</section>
+				</div>
 			</div>
-		</div>
+			<div class="options">
+				<!--id="mp"-->
+				<h3 id="mp">mapa</h3>
+				<!-- ukryte menu -->
+				<div class="maps">
+					<button onclick="initMap()">Mapa</button> <button onclick="changeRange()">Zakres</button>
+				</div>
+				</div>
+			</div>
+		</nav>
 	</div>
 
-	<script src="lib\jquery-3.1.1.min.js"></script>
-	<script src="mapsstyles.js"></script>
-	<script src="script.js"></script>
+	<div class="legend">
+		<section class="range-options"></section>
+		<section class="range" onclick="changeRange()"></section>
+	</div>
+	<script src="src\jquery-3.1.1.min.js"></script>
+	<script src="src\colors.js"></script>
+	<script src="src\remapp.js"></script>
+	<script src="src\googlemaps.js"></script>
 
 	<script async defer src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 </body>

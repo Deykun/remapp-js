@@ -1,4 +1,6 @@
-@import 'variables';
+$color1: #fff;
+$color2: #79931d;
+$color3: #c9c9c9;
 
 *, html, body, p {
 	padding: 0;
@@ -11,107 +13,210 @@ body, button {
 	color: $color2;
 }
 
-.menu {
+button {
+	background-color: rgba(255,255,255,0);
+	border: rgba(255,255,255,0);
+}
+
+.remapp {
 	position: fixed;
 	right: 10px;
-	top:10px;
-}
+	top: 10px;
 
-h1 {
-	float:left;
-	margin-right: 20px;
-}
-
-h1 span {
-	font-weight: 300;
-}
-
-#add-tracks {
-	display: none;
-}
-
-.options {
-	float:right;
-
-	cursor: pointer;
-	width: 150px;
-	border: 3px solid $color2;
-	border-radius: 25px;
-
-	color: $color1;
-	background-color: $color2;
-
-	transition: .5s;
-
-	h3 {
-		text-align: center;
-		line-height: 44px;
-	}
-
-	.tracks {
-		padding: 10px;
-		display: none;
-	}
-
-	&:hover, &.selected {
-		width: 30vw;
-		min-width: 250px;
-		max-width: 600px;
-
-		color: $color2;
-		background-color: $color1;
-	}
-	&.selected {
-		cursor: default;
-		border-radius: 5px;
-
-		h3 {
-			cursor: pointer;
+	header {
+		float:left;
+		h1 span {
+			font-weight: 300;
 		}
 	}
 
-	ul {
-		margin: 10px;
-		min-height: 70px;
-		max-height: 40vh;
+	nav {
+		float: right;
 
-		overflow-x: hidden;
-		overflow-y: hidden;
-		&:hover {
-			overflow-y: scroll;
-			margin-right: 0;
+		.options {
+			float: left;
+			width: 75px;
+
+			margin-left: 10px;
+
+			cursor: pointer;
+			border: 2px solid $color2;
+			border-radius: 25px;
+
+			color: $color1;
+			background-color: $color2;
+
+			transition: .3s;
+
+			h3 {
+				font-weight: 400;
+				font-size: 16px;
+
+				text-align: center;
+				line-height: 34px;
 			}
-		li {
-			position: relative;
 
-			margin-right: 20px;
-
-			font-size: 11px;
-			padding: 5px 0;
-			border-bottom: 1px solid $color3;
-
-			transition: .5s;
-
-			button {
-				position: absolute;
-				top: 0;
-				left: -50px;
-
-				width: 50px;
-
-				transition: .5s;
+			.tracks, .maps, #add-tracks {
+				padding: 10px;
+				display: none;
 			}
-			&:hover {
-				padding-left: 55px;
-				button {
-					left: 0;
+			&.selected .tracks {
+				display: block;
+			}
+
+			&.box:hover, &.box.selected {
+				width: 35vw;
+				min-width: 150px;
+				max-width: 300px;
+			}
+
+			&:hover, &.selected {
+				color: $color2;
+				background-color: $color1;
+			}
+
+			&.selected {
+				cursor: default;
+				border-radius: 5px;
+				h3 {
+					cursor: pointer;
 				}
 			}
 
-			&:last-child {
-				border-bottom: 0px;
+			#status-tracks {
+				float: right;
 			}
-			&.complete {
+
+			/* Lista tras */
+			.scroll {
+				min-height: 0;
+				max-height: 40vh;
+				overflow-y: scroll;
+				visibility: hidden;
+			}
+
+			.scroll:hover {
+				overflow-y: scroll;
+				visibility: visible;
+			}
+
+			ul {
+				visibility: visible;
+
+				li {
+					position: relative;
+
+					overflow-x:hidden;
+
+					font-size: 10px;
+					padding: 5px 0;
+					border-bottom: 1px solid $color3;
+
+					transition: .2s;
+
+					button {
+						position: absolute;
+						bottom: 0;
+						right: -40px;
+
+						text-align: center;
+						width: 40px;
+
+						transition: .2s;
+					}
+					&:hover {
+						button {
+							right: 0;
+						}
+					}
+
+					&:last-child {
+						border-bottom: 0px;
+					}
+					&.complete {
+						font-size: 13px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.legend {
+	position: fixed;
+	bottom: 10px;
+	left: 50%;
+
+	height: 80px;
+	@media (max-width: 800px) {
+		height: 50px;
+	}
+	width: 620px;
+	text-align: center;
+
+	transform: translate(-50%,0);
+
+	.range-options {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translate(-50%,0);
+
+		opacity: 0;
+		transition: .3s;
+	}
+
+	&:hover .range-options {
+		opacity: 1;
+	}
+
+	.range {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+
+		width: 620px;
+		text-align: center;
+
+		transform: translate(-50%,0);
+	}
+
+	div {
+		display: inline-block;
+		text-align: center;
+
+		overflow: hidden;
+		color: rgba(255,255,255,0);
+		&:first-child, &:last-child {
+			color: rgba(255,255,255,1);
+		}
+
+		height: 20px;
+		line-height: 20px;
+		width: 50px;
+		font-size: 10px;
+
+		@media (max-width: 800px) {
+			height: 15px;
+			line-height: 15px;
+			width: 30px;
+			font-size: 10px;
+		}
+
+		transition: .5s;
+		&:hover {
+			color: rgba(255,255,255,1);
+			text-align: center;
+
+			height: 50px;
+			line-height: 50px;
+			width: 70px;
+			font-size: 20px;
+
+			@media (max-width: 800px) {
+				height: 20px;
+				line-height: 20px;
+				width: 50px;
 				font-size: 13px;
 			}
 		}
@@ -121,4 +226,6 @@ h1 span {
 #map {
 	width: 100vw;
   height: 100vh;
+
+	background-color: #e5e3df;
 }
