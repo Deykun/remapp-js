@@ -21,14 +21,18 @@
   }
 }
 
-[class^="flaticon-"]:before, [class*=" flaticon-"]:before {
+[class^="flaticon-"]:before {
   font-family: Flaticon;
   font-size: 24px;
   font-style: normal;
 }
 
-ul [class^="flaticon-"]:before, ul [class*=" flaticon-"]:before {
+ul [class^="flaticon-"]:before {
   font-size: 15px;
+}
+
+.trackmenu [class^="flaticon-"]:before {
+  font-size: 24px;
 }
 
 .flaticon-check:before { content: "\f100"; }

@@ -14,13 +14,15 @@ button {
 .remapp {
   position: fixed;
   right: 10px;
-  top: 10px; }
+  top: 10px;
+  height: 0; }
   .remapp header {
     float: left; }
     .remapp header h1 span {
       font-weight: 300; }
   .remapp nav {
-    float: right; }
+    float: right;
+    height: 0; }
     .remapp nav .options {
       float: left;
       width: 75px;
@@ -57,14 +59,12 @@ button {
       .remapp nav .options #status-tracks {
         float: right; }
       .remapp nav .options .scroll {
+        position: relative;
         min-height: 0;
         max-height: 40vh;
-        overflow-y: scroll;
-        visibility: hidden; }
-      .remapp nav .options .scroll:hover {
-        overflow-y: scroll;
-        visibility: visible; }
+        overflow-y: scroll; }
       .remapp nav .options ul {
+        position: relative;
         visibility: visible; }
         .remapp nav .options ul li {
           position: relative;
@@ -73,17 +73,20 @@ button {
           padding: 5px 0;
           border-bottom: 1px solid #c9c9c9;
           transition: .2s; }
-          .remapp nav .options ul li button {
+          .remapp nav .options ul li .trackmenu {
             position: absolute;
             bottom: 0;
-            right: -40px;
+            right: -70px;
             text-align: center;
-            width: 40px;
-            transition: .2s; }
-          .remapp nav .options ul li:hover button {
+            transition: .3s; }
+            .remapp nav .options ul li .trackmenu button {
+              width: 35px; }
+          .remapp nav .options ul li:hover .trackmenu {
             right: 0; }
           .remapp nav .options ul li:last-child {
             border-bottom: 0px; }
+          .remapp nav .options ul li.chosen {
+            color: #000; }
           .remapp nav .options ul li.complete {
             font-size: 13px; }
 
@@ -91,60 +94,51 @@ button {
   position: fixed;
   bottom: 10px;
   left: 50%;
-  height: 80px;
   width: 620px;
   text-align: center;
   transform: translate(-50%, 0); }
-  @media (max-width: 800px) {
-    .legend {
-      height: 50px; } }
   .legend .range-options {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
+    height: 0px;
     opacity: 0;
-    transition: .3s; }
-  .legend:hover .range-options {
-    opacity: 1; }
-  .legend .range {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 620px;
-    text-align: center;
-    transform: translate(-50%, 0); }
-  .legend div {
-    display: inline-block;
-    text-align: center;
     overflow: hidden;
-    color: rgba(255, 255, 255, 0);
-    height: 20px;
-    line-height: 20px;
-    width: 50px;
-    font-size: 10px;
-    transition: .5s; }
-    .legend div:first-child, .legend div:last-child {
-      color: white; }
-    @media (max-width: 800px) {
-      .legend div {
-        height: 15px;
-        line-height: 15px;
-        width: 30px;
-        font-size: 10px; } }
-    .legend div:hover {
-      color: white;
+    transition: .3s .5s; }
+  .legend:hover .range-options {
+    opacity: 1;
+    height: 30px; }
+  .legend .range {
+    width: 620px; }
+    .legend .range div {
+      display: inline-block;
       text-align: center;
-      height: 50px;
-      line-height: 50px;
-      width: 70px;
-      font-size: 20px; }
+      cursor: help;
+      overflow: hidden;
+      color: rgba(255, 255, 255, 0);
+      height: 20px;
+      line-height: 20px;
+      width: 50px;
+      font-size: 10px;
+      transition: .5s; }
+      .legend .range div:first-child, .legend .range div:last-child {
+        color: white; }
       @media (max-width: 800px) {
-        .legend div:hover {
-          height: 20px;
-          line-height: 20px;
-          width: 50px;
-          font-size: 13px; } }
+        .legend .range div {
+          height: 15px;
+          line-height: 15px;
+          width: 30px;
+          font-size: 9px; } }
+      .legend .range div:hover {
+        color: white;
+        text-align: center;
+        height: 50px;
+        line-height: 50px;
+        width: 70px;
+        font-size: 15px; }
+        @media (max-width: 800px) {
+          .legend .range div:hover {
+            height: 20px;
+            line-height: 20px;
+            width: 50px;
+            font-size: 13px; } }
 
 #map {
   width: 100vw;

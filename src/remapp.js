@@ -20,6 +20,7 @@ function del(id) {
 	$('#track'+id).remove();
 }
 
+/* Funkcja odpwiedzialna za zmiane legendy mapy */
 var range = 3;
 function changeRange() {
 	$('.range').empty();
@@ -54,57 +55,56 @@ function changeRange() {
 		}
 }
 
+/* Status ładowanych plików */
 function filesStatus() {
 	if ($('li').length == $('li.complete').length) {
 		$('#status-tracks').empty();
 	}
 }
 
-/* Przetwarzanie trasy GPS */
-var Point = function(longitude, latitude, time) {
-	this.ptlocation = {lat: Number(latitude), lng: Number(longitude)};
-	this.time = time;
+/* Przetwarzanie punktu GPS w formacie wymaganym przez Google Maps */
+var Point = function (longitude, latitude) {
+	return {lat: Number(latitude), lng: Number(longitude)};
 }
 
 
 /* Pobieranie danych o lokalizacji GPS z tras .gpx i .tcx */
 function getPoints(id, title, data)	{
 	var reader = new FileReader();
-	var trkpt = [];
+	var trkpt = [], trktime = [];
 
 	if (title.slice(-4) === '.gpx') {
 		reader.readAsText(data);
 
 		reader.onloadend = function() {
-		var xmldata = $(reader.result);
+			var xmldata = $(reader.result);
 
-		$(xmldata).find('trkpt').each( function () {
-				trkpt.push(new Point(
-					$(this).attr('lon'),
-					$(this).attr('lat'),
-					$(this).find('time').text().slice(0,-1)));
-				}	);
+			$(xmldata).find('trkpt').each( function () {
+				trkpt.push( new Point( $(this).attr('lon'),	$(this).attr('lat')	) )
+				trktime.push( $(this).find('time').text().slice(0,-1) );
+			}	);
 
-					trk[id] = trkpt;
-					var trkdate = new Date(trkpt[0].time);
-					$('#track'+id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<button onclick="del('+id+')"><i class="flaticon-remove"></i></button></button>');
-					filesStatus();
+			trk[id] = [trkpt, trktime];
+
+			var trkdate = new Date(trk[id][1][0]);
+			$('#track'+id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<section class="trackmenu"><button><i class="flaticon-eye"></i></button> <button onclick="del('+id+')"><i class="flaticon-remove"></i></button></section>');
+			filesStatus();
 		}
 	} else if (title.slice(-4) === '.tcx') {
 		reader.readAsText(data);
 
 		reader.onloadend = function() {
-		var xmldata = $(reader.result);
-		$(xmldata).find('Trackpoint').each( function () {
-				trkpt.push(new Point(
-					$(this).find('LongitudeDegrees').text(),
-					$(this).find('LatitudeDegrees').text(),
-					$(this).find('Time').text().slice(0,-1)));
-					}	);
+			var xmldata = $(reader.result);
+			$(xmldata).find('Trackpoint').each( function () {
+				trkpt.push( new Point( $(this).find('LongitudeDegrees').text(),	$(this).find('LatitudeDegrees').text() ) )
+				trktime.push( $(this).find('Time').text().slice(0,-1) );
+			}	);
 
-					trk[id] = trkpt;
-					$('#track'+id).addClass('complete').append(trkpt.length+'pkt | '+trkpt[0].time.split('T').pop()+' - '+trkpt[(trkpt.length-1)].time.split('T').pop()+'<button onclick="del('+id+')"><i class="flaticon-remove"></i></button>');
-					filesStatus();
+			trk[id] = [trkpt, trktime];
+
+			var trkdate = new Date(trk[id][1][0]);
+			$('#track'+id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<section class="trackmenu"><button><i class="flaticon-eye"></i></button> <button onclick="del('+id+')"><i class="flaticon-remove"></i></button></section>');
+			filesStatus();
 		}
 	} else {
 		$('#track'+id).addClass('complete').append('Zły format pliku. <button onclick="del('+id+')"><i class="flaticon-remove"></i></button>');

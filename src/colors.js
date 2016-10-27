@@ -12,7 +12,7 @@ colors = {
 }
 
 /* Mapa */
-mapstyle = [
+mapStyle = [
   {
     "elementType": "geometry",
     "stylers": [
@@ -232,3 +232,5 @@ mapstyle = [
     ]
   }
 ];
+
+strokeStyle = 1.2;

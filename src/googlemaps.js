@@ -4,7 +4,7 @@ function mapLoad() {
 	if (map === 'start') {
 		var center, zoom;
 		if (trk[0]) {
-			center = trk[0][0].ptlocation;
+			center = trk[0][0][0];
 			zoom = 13;
 		} else {
 			center = {lat: 52.03, lng: 19.27};
@@ -13,7 +13,7 @@ function mapLoad() {
 		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: zoom,
 			center: center,
-			styles: mapstyle
+			styles: mapStyle
 		});
 	}
 	changeMap();
@@ -28,35 +28,73 @@ function changeMap() {
 
 	/* Ustawia nowe markery na mapie */
 	for (var i = 0, imax = trk.length ; i < imax ; i+=1) {
-		polyline = [];
-
 		/* Ustalanie koloru linii dla wybranego zakresu*/
 		var color;
 		switch (range) {
-			case 0: color = colors.year[(new Date(trk[i][0].time).getFullYear()-2010)];
+			case 0: color = colors.year[(new Date(trk[i][1][0]).getFullYear()-2010)];
 				break;
-			case 1: color = colors.month[new Date(trk[i][0].time).getMonth()];
+			case 1: color = colors.month[new Date(trk[i][1][0]).getMonth()];
 				break;
-			case 2: color = colors.hour[new Date(trk[i][0].time).getHours()];
+			case 2: color = colors.hour[new Date(trk[i][1][0]).getHours()];
 				break;
-			case 3: color = colors.day[new Date(trk[i][0].time).getDay()];
+			case 3: color = colors.day[new Date(trk[i][1][0]).getDay()];
 				break;
 
 			default: color = '#000';
 		}
 
-		for (var j = 0, jmax = trk[i].length ; j < jmax ; j+=1) {
-		polyline.push(trk[i][j].ptlocation);
-		}
 		marker[i] = new google.maps.Polyline({
-			path: polyline,
+			path: trk[i][0],
 			geodesic: true,
 			strokeColor: color,
-			strokeOpacity: 0.8,
-			strokeWeight: 1,
-			label: 'ID:'+i
+			strokeOpacity: 1,
+			strokeWeight: strokeStyle,
+			label: i
 		});
 
 		marker[i].setMap(map);
+
+		/* Jeżeli włączono tryb szukania */
+		if (finder) {
+			marker[i].addListener('click', pickPolyline);
+		}
+	}
+}
+
+finder = false;
+function findMap() {
+	if (finder) {
+		strokeStyle = 1.2;
+		for (var i = 0, imax = marker.length ; i < imax ; i+=1)	{
+				google.maps.event.clearListeners(marker[i], 'click');
+		}
+		$('li').removeClass('chosen');
+		finder = false;
+		changeMap();
+	} else {
+		strokeStyle = 3.5;
+		finder = true;
+		changeMap();
+	}
+}
+
+function pickPolyline() {
+	var id = $('#track'+$(this)[0].label), y;
+
+	/* Oznaczenie wybranej trasy */
+	$('li').removeClass('chosen');
+	id.addClass('chosen');
+
+	/* Otwieranie zakładki z trasami jeśli jest ona zamknięta */
+	if (!$('.options #tr').parent().hasClass('selected'))	{
+		$('.options #tr').parent().addClass('selected');
+		/* Opóźnienie wywołania funkcji (otwierające się zakładka ma inne wymiary) */
+		setTimeout( function() {
+			y = id.position().top;
+			$('.scroll').animate({ scrollTop: y }, 300);
+		}, 1000);
+	} else {
+		y = id.position().top;
+		$('.scroll').animate({ scrollTop: y }, 300);
 	}
 }
