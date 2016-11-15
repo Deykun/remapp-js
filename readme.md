@@ -1,29 +1,32 @@
-# remapp
+# scieski
 
-### http://deykun.boo.pl/lab/remapp/ - **wersja 0.5**
-
-*(do pracy ze stroną potrzebny jest plik w formacie .gpx lub .tcx - w repozytorium w folderze **przyklady** znajduje się 20 tras w formacie .gpx)*
+### http://deykun.boo.pl/lab/scieski/ - **wersja 0.6**
+http://deykun.boo.pl/lab/remapp/ - wersja 0.5
 
 ## Cel
 W założeniu skrypt ma na podstawie pobranych i skopiowanych do wskazanego folderu tras Endomondo generować mapy których domyślnie serwis ten nie generuje.
 
-### Wersja 0.5
-- tryb lokalizacji w którym trasy można wybierać bezpośrednio na mapie
+### Wersja 0.6
+- całkowita zmiana GUI
+- zmiana nazwy z remapp na scieski
+- dodanie przycisku ładującego 20 przykładowych tras
 
-## Generowane mapy
-Docelowo skrypt ma generować:
-- mapę wyświetlającą położenie od danej godzinie dla wszystkich tras wraz z możliwością odtworzenia dnia w przyśpieszeniu
-- mapę wyświetlającą informację o tym jak często użytkownik był w danym miejscu
+![](http://deykun.boo.pl/lab/ilustracje/scieski/0.6/trasy.gif)
+
+![](http://deykun.boo.pl/lab/ilustracje/scieski/0.6/legenda.gif)
+
+![](http://deykun.boo.pl/lab/ilustracje/scieski/0.6/finder.gif)
 
 ## Wcześniejsze wersje
+
+### Wersja 0.5
+- tryb lokalizacji w którym trasy można wybierać bezpośrednio na mapie
 
 ### Wersja 0.4
 - poprawa wyglądu, optymalizacja
 - legenda mapy
 
 ![](http://deykun.boo.pl/lab/remapp/log/04/trasy.gif)
-
-![](http://deykun.boo.pl/lab/remapp/log/04/legenda.gif)
 
 ### Wersja 0.3
 - wersja demonstracyjna online

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 *, html, body, p {
   padding: 0;
   margin: 0;
@@ -5,90 +6,15 @@
 
 body, button {
   font-family: 'Josefin Sans', sans-serif;
-  color: #79931d; }
+  color: #fff; }
 
 button {
   background-color: rgba(255, 255, 255, 0);
   border: rgba(255, 255, 255, 0); }
 
-.remapp {
-  position: fixed;
-  right: 10px;
-  top: 10px;
-  height: 0; }
-  .remapp header {
-    float: left; }
-    .remapp header h1 span {
-      font-weight: 300; }
-  .remapp nav {
-    float: right;
-    height: 0; }
-    .remapp nav .options {
-      float: left;
-      width: 75px;
-      margin-left: 10px;
-      cursor: pointer;
-      border: 2px solid #79931d;
-      border-radius: 25px;
-      color: #fff;
-      background-color: #79931d;
-      transition: .3s;
-      /* Lista tras */ }
-      .remapp nav .options h3 {
-        font-weight: 400;
-        font-size: 16px;
-        text-align: center;
-        line-height: 34px; }
-      .remapp nav .options .tracks, .remapp nav .options .maps, .remapp nav .options #add-tracks {
-        padding: 10px;
-        display: none; }
-      .remapp nav .options.selected .tracks {
-        display: block; }
-      .remapp nav .options.box:hover, .remapp nav .options.box.selected {
-        width: 35vw;
-        min-width: 150px;
-        max-width: 300px; }
-      .remapp nav .options:hover, .remapp nav .options.selected {
-        color: #79931d;
-        background-color: #fff; }
-      .remapp nav .options.selected {
-        cursor: default;
-        border-radius: 5px; }
-        .remapp nav .options.selected h3 {
-          cursor: pointer; }
-      .remapp nav .options #status-tracks {
-        float: right; }
-      .remapp nav .options .scroll {
-        position: relative;
-        min-height: 0;
-        max-height: 40vh;
-        overflow-y: scroll; }
-      .remapp nav .options ul {
-        position: relative;
-        visibility: visible; }
-        .remapp nav .options ul li {
-          position: relative;
-          overflow-x: hidden;
-          font-size: 10px;
-          padding: 5px 0;
-          border-bottom: 1px solid #c9c9c9;
-          transition: .2s; }
-          .remapp nav .options ul li .trackmenu {
-            position: absolute;
-            bottom: 0;
-            right: -70px;
-            text-align: center;
-            transition: .3s; }
-            .remapp nav .options ul li .trackmenu button {
-              width: 35px; }
-          .remapp nav .options ul li:hover .trackmenu {
-            right: 0; }
-          .remapp nav .options ul li:last-child {
-            border-bottom: 0px; }
-          .remapp nav .options ul li.chosen {
-            color: #000; }
-          .remapp nav .options ul li.complete {
-            font-size: 13px; }
+#map {
+  height: 100vh;
+  background-color: #e5e3df; }
 
 .legend {
   position: fixed;
@@ -97,11 +23,6 @@ button {
   width: 620px;
   text-align: center;
   transform: translate(-50%, 0); }
-  .legend .range-options {
-    height: 0px;
-    opacity: 0;
-    overflow: hidden;
-    transition: .3s .5s; }
   .legend:hover .range-options {
     opacity: 1;
     height: 30px; }
@@ -140,9 +61,109 @@ button {
             width: 50px;
             font-size: 13px; } }
 
-#map {
-  width: 100vw;
+header {
+  transition: 0.5s;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 150px;
+  z-index: 200;
+  text-align: right; }
+  header h1 {
+    transition: 0.5s;
+    display: inline-block;
+    font-size: 24px;
+    color: #689756;
+    font-weight: 400; }
+  header svg {
+    transition: 0.5s;
+    max-width: 60px; }
+    header svg #logo {
+      transition: 0.5s;
+      fill: #689756; }
+  header.show h1 {
+    font-size: 30px;
+    color: #fff; }
+  header.show svg {
+    max-width: 36px; }
+    header.show svg #logo {
+      fill: #fff; }
+
+.remapp {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
   height: 100vh;
-  background-color: #e5e3df; }
+  width: 25vw;
+  min-width: 250px;
+  margin-right: -25vw;
+  padding: 10px;
+  padding-top: 60px;
+  background-color: #689756;
+  transition: margin 0.5s;
+  /* Wysuwane panele wen─ůtrz menu scieski */
+  /* Lista tras */ }
+  @media (max-width: 1000px) {
+    .remapp {
+      margin-right: -250px; } }
+  .remapp.show {
+    margin-right: 0; }
+  .remapp p {
+    margin: 5px 0;
+    text-align: justify;
+    text-indent: 2em; }
+  .remapp .panel {
+    position: absolute;
+    bottom: 0;
+    right: -25vw;
+    z-index: 300;
+    width: 25vw;
+    min-width: 250px;
+    padding: 10px;
+    background-color: #689756;
+    transition: right 0.5s; }
+    @media (max-width: 1000px) {
+      .remapp .panel {
+        right: -250px; } }
+    .remapp .panel.show {
+      right: 0; }
+    .remapp .panel h3 {
+      cursor: pointer; }
+  .remapp #add-tracks {
+    display: none; }
+  .remapp #status-tracks {
+    float: right; }
+  .remapp .scroll {
+    position: relative;
+    min-height: 0;
+    max-height: 60vh;
+    margin-left: 20px;
+    overflow-y: scroll; }
+  .remapp ul {
+    position: relative;
+    visibility: visible; }
+    .remapp ul li {
+      position: relative;
+      overflow-x: hidden;
+      font-size: 10px;
+      padding: 5px 0;
+      border-bottom: 1px solid #000;
+      transition: .2s;
+      /* Dla za┼éadowanych tras */ }
+      .remapp ul li .trackmenu {
+        position: absolute;
+        bottom: 0;
+        right: -70px;
+        text-align: center;
+        transition: .3s; }
+        .remapp ul li .trackmenu button {
+          width: 35px; }
+      .remapp ul li:hover .trackmenu {
+        right: 0; }
+      .remapp ul li:last-child {
+        border-bottom: 0px; }
+      .remapp ul li.chosen {
+        color: #000; }
 
 /*# sourceMappingURL=gui.css.map */

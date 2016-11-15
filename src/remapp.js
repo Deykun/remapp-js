@@ -114,14 +114,31 @@ function getPoints(id, title, data)	{
 
 $(document).ready(function(){
 
-	$('#tr').click(function() {
-		$('.options #tr').parent().toggleClass('selected');
-	});
+	/* Wysuniecie menu */
+	$('header').click( function() {
+		$('.remapp, header').toggleClass('show'); });
 
-	$('#mp').click(function() {
-		mapLoad();
-		$('.options').removeClass('selected');
-	});
+	/* Ukrycie wiadomości powitalnej */
+	$('.in').click( function() {
+		$('.introduction').hide(); });
+
+	/* Wysunięcie panelu tras */
+	$('.tr').click( function() {
+			$('.panel:not(.tracks)').removeClass('show');
+			$('.tracks').toggleClass('show'); });
+
+	/* Wysunięcie panelu legendy */
+	$('.lg').click( function() {
+			$('.panel:not(.legends)').removeClass('show');
+			$('.legends').toggleClass('show'); });
+
+	/* Odświeżenie mapy */
+	$('.mp').click(	function() {
+			mapLoad();
+			$('.remapp, header').toggleClass('show'); });
+
+	/* Wybieranie tras na mapie */
+	$('.fm').click(	findMap );
 
 	changeRange()
 

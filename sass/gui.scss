@@ -1,6 +1,8 @@
-$color1: #fff;
-$color2: #79931d;
-$color3: #c9c9c9;
+$colorText: #fff;
+$colorMap: #e5e3df;
+$colorBody: #689756;
+
+$transitionTime: .5s;
 
 *, html, body, p {
 	padding: 0;
@@ -10,7 +12,7 @@ $color3: #c9c9c9;
 
 body, button {
 	font-family: 'Josefin Sans', sans-serif;
-	color: $color2;
+	color: $colorText;
 }
 
 button {
@@ -18,134 +20,10 @@ button {
 	border: rgba(255,255,255,0);
 }
 
-.remapp {
-	position: fixed;
-	right: 10px;
-	top: 10px;
+#map {
+	height: 100vh;
 
-	height: 0;
-
-	header {
-		float:left;
-		h1 span {
-			font-weight: 300;
-		}
-	}
-
-	nav {
-		float: right;
-		height: 0;
-
-		.options {
-			float: left;
-			width: 75px;
-
-			margin-left: 10px;
-
-			cursor: pointer;
-			border: 2px solid $color2;
-			border-radius: 25px;
-
-			color: $color1;
-			background-color: $color2;
-
-			transition: .3s;
-
-			h3 {
-				font-weight: 400;
-				font-size: 16px;
-
-				text-align: center;
-				line-height: 34px;
-			}
-
-			.tracks, .maps, #add-tracks {
-				padding: 10px;
-				display: none;
-			}
-			&.selected .tracks {
-				display: block;
-			}
-
-			&.box:hover, &.box.selected {
-				width: 35vw;
-				min-width: 150px;
-				max-width: 300px;
-			}
-
-			&:hover, &.selected {
-				color: $color2;
-				background-color: $color1;
-			}
-
-			&.selected {
-				cursor: default;
-				border-radius: 5px;
-				h3 {
-					cursor: pointer;
-				}
-			}
-
-			#status-tracks {
-				float: right;
-			}
-
-			/* Lista tras */
-			.scroll {
-				position: relative;
-				min-height: 0;
-				max-height: 40vh;
-				overflow-y: scroll;
-			}
-
-			ul {
-				position: relative;
-				visibility: visible;
-
-				li {
-					position: relative;
-
-					overflow-x:hidden;
-
-					font-size: 10px;
-					padding: 5px 0;
-					border-bottom: 1px solid $color3;
-
-					transition: .2s;
-
-					.trackmenu {
-						position: absolute;
-						bottom: 0;
-						right: -70px;
-
-						text-align: center;
-						transition: .3s;
-
-						button {
-							width: 35px;
-						}
-					}
-
-					&:hover {
-						.trackmenu {
-							right: 0;
-						}
-					}
-
-					&:last-child {
-						border-bottom: 0px;
-					}
-					&.chosen {
-						color: #000;
-					}
-
-					&.complete {
-						font-size: 13px;
-					}
-				}
-			}
-		}
-	}
+	background-color: $colorMap;
 }
 
 .legend {
@@ -157,15 +35,6 @@ button {
 	text-align: center;
 
 	transform: translate(-50%,0);
-
-	.range-options {
-
-		height: 0px;
-		opacity: 0;
-
-		overflow: hidden;
-		transition: .3s .5s;
-	}
 
 	&:hover .range-options {
 		opacity: 1;
@@ -219,9 +88,178 @@ button {
 	}
 }
 
-#map {
-	width: 100vw;
-  height: 100vh;
+header {
+	transition: $transitionTime;
 
-	background-color: #e5e3df;
+	position: fixed;
+	top: 10px;
+	right: 10px;
+
+	width: 150px;
+
+	z-index: 200;
+
+	text-align: right;
+
+	h1 {
+		transition: $transitionTime;
+
+		display: inline-block;
+
+		font-size: 24px;
+		color: $colorBody;
+		font-weight: 400;
+	}
+
+	svg {
+		transition: $transitionTime;
+		max-width: 60px;
+
+		#logo {
+			transition: $transitionTime;
+			fill: $colorBody;
+		}
+	}
+
+	&.show {
+		h1 {
+			font-size: 30px;
+			color: $colorText;
+		}
+
+		svg {
+			max-width: 36px;
+
+			#logo {
+				fill: $colorText;
+			}
+		}
+	}
+}
+
+.remapp {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 100;
+
+	height: 100vh;
+	width: 25vw;
+	min-width: 250px;
+
+	margin-right: -25vw;
+	@media (max-width: 1000px) {
+		margin-right: -250px;
+	}
+	padding: 10px;
+	padding-top: 60px;
+
+	background-color: $colorBody;
+
+	transition: margin $transitionTime;
+
+	&.show {
+		margin-right: 0;
+	}
+
+	p {
+		margin: 5px 0;
+		text-align: justify;
+		text-indent: 2em;
+	}
+
+	/* Wysuwane panele wenątrz menu scieski */
+	.panel {
+		position: absolute;
+		bottom: 0;
+		right: -25vw;
+		@media (max-width: 1000px) {
+			right: -250px;
+		}
+		z-index: 300;
+
+		&.show {
+			right: 0;
+		}
+
+		h3 {
+			cursor: pointer;
+		}
+
+		width: 25vw;
+		min-width: 250px;
+
+		padding: 10px;
+
+		background-color: $colorBody;
+
+		transition: right $transitionTime;
+	}
+
+	/* Lista tras */
+	#add-tracks {
+		display: none;
+	}
+
+	#status-tracks {
+		float: right;
+	}
+
+	.scroll {
+		position: relative;
+
+		min-height: 0;
+		max-height: 60vh;
+
+		margin-left: 20px;
+		overflow-y: scroll;
+	}
+
+	ul {
+		position: relative;
+		visibility: visible;
+
+		li {
+			position: relative;
+
+			overflow-x:hidden;
+
+			font-size: 10px;
+			padding: 5px 0;
+			border-bottom: 1px solid #000;
+
+			transition: .2s;
+
+			.trackmenu {
+				position: absolute;
+				bottom: 0;
+				right: -70px;
+
+				text-align: center;
+				transition: .3s;
+
+				button {
+					width: 35px;
+				}
+			}
+
+			&:hover {
+				.trackmenu {
+					right: 0;
+				}
+			}
+
+			&:last-child {
+				border-bottom: 0px;
+			}
+			&.chosen {
+				color: #000;
+			}
+
+			/* Dla załadowanych tras */
+			&.complete {
+
+			}
+		}
+	}
 }

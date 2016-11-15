@@ -63,6 +63,12 @@ function changeMap() {
 
 finder = false;
 function findMap() {
+	/* Sprawdzenie czy mapa została załadowana */
+	if (map === 'start') {
+		mapLoad();
+	}
+
+	/* Wyłączenie i włączenie lokalizacji na mapie */
 	if (finder) {
 		strokeStyle = 1.2;
 		for (var i = 0, imax = marker.length ; i < imax ; i+=1)	{
@@ -86,15 +92,15 @@ function pickPolyline() {
 	id.addClass('chosen');
 
 	/* Otwieranie zakładki z trasami jeśli jest ona zamknięta */
-	if (!$('.options #tr').parent().hasClass('selected'))	{
-		$('.options #tr').parent().addClass('selected');
-		/* Opóźnienie wywołania funkcji (otwierające się zakładka ma inne wymiary) */
-		setTimeout( function() {
-			y = id.position().top;
-			$('.scroll').animate({ scrollTop: y }, 300);
-		}, 1000);
-	} else {
-		y = id.position().top;
-		$('.scroll').animate({ scrollTop: y }, 300);
+	if (!$('.remapp').hasClass('show'))	{
+		$('.remapp, header').addClass('show');
 	}
+	if (!$('.tracks').hasClass('show'))	{
+		$('.panel').removeClass('show');
+		$('.tracks').addClass('show');
+	}
+
+	/* Animacja przewijania */
+	y = id.position().top;
+	$('.scroll').animate({ scrollTop: y }, 400);
 }
