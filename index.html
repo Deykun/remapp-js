@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>siceski 0.6</title>
+	<title>scieski 0.7</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
 	<link href="css\flaticon\flaticon.css" rel="stylesheet">
 	<link href="css\gui.css" rel="stylesheet">
@@ -11,7 +11,7 @@
 	<div id="map"></div>
 
 	<div class="legend">
-		<section class="range" onclick="changeRange()"></section>
+		<section class="range" onclick="changeRange('auto')"></section>
 	</div>
 
 	<header>
@@ -43,6 +43,8 @@
 		<nav>
 			<button class="tr">trasy</button>
 			<button class="lg">legenda</button>
+			<button class="an">animacja</button>
+			<br>
 			<button class="mp">mapa</button>
 		</nav>
 
@@ -61,7 +63,20 @@
 		<!-- Panel legendy -->
 		<div class="panel legends">
 			<h3 class="lg">Legenda</h3>
-			<button onclick="changeRange()">zmień przedział</button>
+			<button onclick="changeRange(1)">zmień na miesiące</button>
+			<button onclick="changeRange(2)">zmień na godziny</button>
+			<button onclick="changeRange('auto')">zmień przedział</button>
+		</div>
+
+		<!-- Panel animacji -->
+		<div class="panel animation">
+			<h3 class="an">Animacja</h3>
+			<button onclick="mapAnimation('m')">mięsiące</button>
+			<h4>Prędkość animacji:</h4>
+			szybko <input type="range" id="antime" min="150" max="5000" step="50" value="1000"> wolno
+
+			<button onclick="mapAnimationStop()">zatrztymaj animacje</button>
+
 		</div>
 	</div>
 

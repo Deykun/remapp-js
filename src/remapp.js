@@ -22,7 +22,14 @@ function del(id) {
 
 /* Funkcja odpwiedzialna za zmiane legendy mapy */
 var range = 3;
-function changeRange() {
+function changeRange(chrange) {
+	if (chrange !== 'auto') {
+		if (chrange !== 3) {
+			range = chrange-1;
+		} else {
+			range = 0;
+		}
+	}
 	$('.range').empty();
 		if (range === 0) {
 			range = 1;
@@ -131,6 +138,11 @@ $(document).ready(function(){
 	$('.lg').click( function() {
 			$('.panel:not(.legends)').removeClass('show');
 			$('.legends').toggleClass('show'); });
+
+	/* Wysunięcie panelu legendy */
+	$('.an').click( function() {
+			$('.panel:not(.animation)').removeClass('show');
+			$('.animation').toggleClass('show'); });
 
 	/* Odświeżenie mapy */
 	$('.mp').click(	function() {
