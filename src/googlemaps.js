@@ -13,6 +13,7 @@ function mapLoad() {
 		map = new google.maps.Map(document.getElementById('map'), {
 			zoom: zoom,
 			center: center,
+			mapTypeControl: false,
 			styles: mapStyle
 		});
 	}
@@ -21,6 +22,7 @@ function mapLoad() {
 
 /* Wybór markerów na mapie */
 marker = [], polyline = [];
+var changing = 0;
 function changeMap(datetype, daterange) {
 	/* Usuwa obecne na mapie markery */
 	for (var i = 0, imax = marker.length ; i < imax ; i+=1)	{
@@ -43,15 +45,15 @@ function changeMap(datetype, daterange) {
 			}
 
 			var trkmonth = Number(new Date(trk[i][1][0]).getMonth());
-			color = colors.month[new Date(trk[i][1][0]).getMonth()];
+			color = strokes.color.month[new Date(trk[i][1][0]).getMonth()];
 			if ( trkmonth === daterange) {
 				/* Dokładnie ten miesiąc */
 				newmarker = new google.maps.Polyline({
 					path: trk[i][0],
 					geodesic: true,
 					strokeColor: color,
-					strokeOpacity: 1,
-					strokeWeight: 1.5,
+					strokeOpacity: strokes.opacity.animation,
+					strokeWeight: strokes.weight.animation,
 					label: i
 				});
 
@@ -65,8 +67,8 @@ function changeMap(datetype, daterange) {
 					path: trk[i][0],
 					geodesic: true,
 					strokeColor: color,
-					strokeOpacity: 0.5,
-					strokeWeight: strokeStyle,
+					strokeOpacity: strokes.opacity.anNeighbor,
+					strokeWeight: strokes.weight.anNeighbor,
 					label: i
 				});
 
@@ -81,13 +83,13 @@ function changeMap(datetype, daterange) {
 			/* Ustalanie koloru linii dla wybranego zakresu */
 			var color;
 			switch (range) {
-				case 0: color = colors.year[(new Date(trk[i][1][0]).getFullYear()-2010)];
+				case 0: color = strokes.color.year[(new Date(trk[i][1][0]).getFullYear()-2010)];
 					break;
-				case 1: color = colors.month[new Date(trk[i][1][0]).getMonth()];
+				case 1: color = strokes.color.month[new Date(trk[i][1][0]).getMonth()];
 					break;
-				case 2: color = colors.hour[new Date(trk[i][1][0]).getHours()];
+				case 2: color = strokes.color.hour[new Date(trk[i][1][0]).getHours()];
 					break;
-				case 3: color = colors.day[new Date(trk[i][1][0]).getDay()];
+				case 3: color = strokes.color.day[new Date(trk[i][1][0]).getDay()];
 					break;
 
 				default: color = '#000';
@@ -97,7 +99,7 @@ function changeMap(datetype, daterange) {
 				path: trk[i][0],
 				geodesic: true,
 				strokeColor: color,
-				strokeOpacity: 1,
+				strokeOpacity: strokes.opacity.default,
 				strokeWeight: strokeStyle,
 				label: i
 			});
@@ -111,6 +113,9 @@ function changeMap(datetype, daterange) {
 			marker[i].addListener('click', pickPolyline);
 		}
 	}
+
+	/* Zmniejszenie licznika obecnie wywoływanych funkcji przeładowywania mapy */
+	changing--;
 }
 
 finder = false;
@@ -120,9 +125,12 @@ function findMap() {
 		mapLoad();
 	}
 
+	/* Przerwanie obecnych animacji */
+	mapAnimationStop();
+
 	/* Wyłączenie i włączenie lokalizacji na mapie */
 	if (finder) {
-		strokeStyle = 1.2;
+		strokeStyle = strokes.weight.default;
 		for (var i = 0, imax = marker.length ; i < imax ; i+=1)	{
 				google.maps.event.clearListeners(marker[i], 'click');
 		}
@@ -130,7 +138,7 @@ function findMap() {
 		finder = false;
 		changeMap();
 	} else {
-		strokeStyle = 3.5;
+		strokeStyle = strokes.weight.finder;
 		finder = true;
 		changeMap();
 	}
@@ -168,12 +176,20 @@ function mapAnimation(datetype) {
 	/* Przerwanie obecnych animacji */
 	mapAnimationStop();
 
-	//
+	/* Wyłąaczanie trybu lokalizacji */
+	if (finder === true){
+		findMap();
+	}
+
+	/* Pobieranie czasu animacji */
 	var anTime = Number($('#antime').val());
 	anLast = datetype;
 
 	if (datetype === 'm'){
 		var i = 0;
+
+		/* Wybranie zakresu animacji i mapy */
+		changeRange(1, i);
 		changeMap('m', i);
 
 		anMap = setInterval( function() {
@@ -181,19 +197,14 @@ function mapAnimation(datetype) {
 			if (i === 12) {
 				i = 0;
 			}
+
+			changeRange('animation', i);
 			changeMap('m', i);
 		}, anTime);
 	}
 }
 
-/* Zatrztrzymaie animacji i zmiana prędkości animacji */
+/* Zatrztrzymaie animacji */
 function mapAnimationStop() {
 	clearInterval(anMap);
 }
-
-$("#antime").change( function () {
-	mapAnimationStop();
-	if (anLast !== '') {
-		mapAnimation(anLast);
-	}
-});

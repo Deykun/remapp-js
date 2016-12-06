@@ -34,7 +34,7 @@ $('.ex').click( function () {
 				trk[this.id] = [trkpt, trktime];
 
 				var trkdate = new Date(trk[this.id][1][0]);
-				$('#track'+this.id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<section class="trackmenu"><button><i class="flaticon-eye"></i></button> <button onclick="del('+this.id+')"><i class="flaticon-remove"></i></button></section>');
+				$('#track'+this.id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<section class="trackmenu"><button onclick="del('+this.id+')"><i class="flaticon-remove"></i></button></section>');
 				filesStatus();
 			}
 		});

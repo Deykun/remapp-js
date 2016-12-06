@@ -4,13 +4,17 @@
   margin: 0;
   box-sizing: border-box; }
 
-body, button {
+body, button, a {
   font-family: 'Josefin Sans', sans-serif;
   color: #fff; }
 
+a {
+  text-decoration: none; }
+
 button {
   background-color: rgba(255, 255, 255, 0);
-  border: rgba(255, 255, 255, 0); }
+  border: 1px solid #fff;
+  border-radius: 3px; }
 
 #map {
   height: 100vh;
@@ -47,7 +51,7 @@ button {
           line-height: 15px;
           width: 30px;
           font-size: 9px; } }
-      .legend .range div:hover {
+      .legend .range div:hover, .legend .range div.selected {
         color: white;
         text-align: center;
         height: 50px;
@@ -55,7 +59,7 @@ button {
         width: 70px;
         font-size: 15px; }
         @media (max-width: 800px) {
-          .legend .range div:hover {
+          .legend .range div:hover, .legend .range div.selected {
             height: 20px;
             line-height: 20px;
             width: 50px;
@@ -103,6 +107,7 @@ header {
   background-color: #689756;
   transition: margin 0.5s;
   /* Wysuwane panele wen─ůtrz menu scieski */
+  /* Stopka */
   /* Lista tras */ }
   @media (max-width: 1000px) {
     .remapp {
@@ -130,6 +135,17 @@ header {
       right: 0; }
     .remapp .panel h3 {
       cursor: pointer; }
+  .remapp footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 25vw;
+    min-width: 250px;
+    font-size: 10px;
+    text-align: center;
+    z-index: 125;
+    padding: 10px;
+    background-color: #689756; }
   .remapp #add-tracks {
     display: none; }
   .remapp #status-tracks {

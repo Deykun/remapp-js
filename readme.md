@@ -1,18 +1,22 @@
 # scieski
 
-### http://deykun.boo.pl/lab/scieski/ - **wersja 0.7**
+## http://deykun.boo.pl/lab/scieski/ - wersja 0.75
 
 ## Cel
 W założeniu skrypt ma na podstawie pobranych i skopiowanych do wskazanego folderu tras Endomondo generować mapy których domyślnie serwis ten nie generuje.
 
-### Wersja 0.7
+### Wersja 0.75
+- dopasowanie legendy do animacja (wyróżnienie miesiąca)
+- możliwość wyświetlenia wybranego miesiąca w zakładce "legenda"
+
+## Wcześniejsze wersje
+
+#### Wersja 0.7
 - dodanie zakładk "animacja" z opcją "miesiące" która pokazuje trasy z wybranego miesiąca (z zarysem poprzedniego i następnego miesiąca)
 - możliwość ustawienia szybkości animacji od 0,15s do 5s.
 - dodanie zakładki "legenda" pozwalającej wybrać bezpośrednio jej zakres na miesiąc lub godzine
 
 ![](http://deykun.boo.pl/lab/ilustracje/scieski/0.7/animacja.gif)
-
-## Wcześniejsze wersje
 
 #### Wersja 0.6
 - całkowita zmiana GUI
@@ -32,15 +36,5 @@ W założeniu skrypt ma na podstawie pobranych i skopiowanych do wskazanego fold
 
 ![](http://deykun.boo.pl/lab/remapp/log/04/trasy.gif)
 
-#### Wersja 0.3
-- wersja demonstracyjna online
-- możliwość generowania map z kolorami tras zależnymi od roku, miesiąca i godziny (przedział 2 godzin)
-- komunikat o złym formacie pliku
-
-#### Wersja 0.2
-- pobieranie danych o położeniu tras dodanych przy pomocy elementu input[file] -lokalnie bez przesyłania plików na serwer
-- generowanie mapy z wszystkimi dodanymi trasami (kolor trasy zależy od roku)
-
-#### Wersja 0.1
-- pobieranie danych o położeniu (czas oraz długość i szerokość geograficzna) z tras w formatach .gpx i .tcx znajdujących się folderze **tracks**
-- pobranie mapy Google dla punktów startowych tras
+#### Wcześniejsze wersje
+Zmiany we wcześniejszych wersjach można sprawdzić w poprzednich wersjach tego pliku.

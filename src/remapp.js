@@ -21,45 +21,65 @@ function del(id) {
 }
 
 /* Funkcja odpwiedzialna za zmiane legendy mapy */
-var range = 3;
-function changeRange(chrange) {
-	if (chrange !== 'auto') {
-		if (chrange !== 3) {
-			range = chrange-1;
-		} else {
-			range = 0;
+var range = 3, legend = 'start';
+function changeRange(chrange, selected) {
+	/* Przerwanie animacji jeśli była włączona, a zmiana legendy nie wynika z jej działania */
+	if (chrange !== 'animation') {
+	mapAnimationStop();
+	}
+
+	/* Typ legendy */
+	if (chrange !== 'animation') {
+		if (chrange !== 'auto') {
+			if (chrange !== 3) {
+				range = chrange-1;
+			} else {
+				range = 0;
+			}
+		}
+
+		/* Zmiana zakresu legendy */
+		if (chrange !== range) {
+			if (legend !== 'start') {
+				if (map === 'start') {
+					mapLoad();
+				}
+				changeMap();
+			}
+			legend = 'started';
+
+			$('.range').empty();
+				if (range === 0) {
+					range = 1;
+					for (var i = 0 ; i<12 ; i+=1){
+						$('.range').append('<div style="background-color:'+strokes.color.month[i]+';">'+strokes.color.monthName[i]+'</div>');
+					}
+				} else if (range === 1) {
+					range = 2;
+					for (var i = 0 ; i<24 ; i+=2){
+						$('.range').append('<div style="background-color:'+strokes.color.hour[i]+';">'+i+':00</div>');
+					}
+				} else if (range === 2) {
+					range = 3;
+					for (var i = 1 ; i<7 ; i+=1){
+						$('.range').append('<div style="background-color:'+strokes.color.day[i]+';">'+strokes.color.dayName[i]+'</div>');
+					}
+					/* Dodatkowa linijka przenosząca niedziele na koniec listy */
+					$('.range').append('<div style="background-color:'+strokes.color.day[0]+';">'+strokes.color.dayName[0]+'</div>');
+				} else {
+					range = 0;
+					for (var i = 1 ; i<7 ; i+=1){
+						$('.range').append('<div style="background-color:'+strokes.color.year[i]+';">'+(i+2010)+'</div>');
+					}
+				}
 		}
 	}
-	$('.range').empty();
-		if (range === 0) {
-			range = 1;
-			for (var i = 0 ; i<12 ; i+=1){
-				$('.range').append('<div style="background-color:'+colors.month[i]+';">'+colors.monthName[i]+'</div>');
-			}
-		} else if (range === 1) {
-			range = 2;
-			for (var i = 0 ; i<24 ; i+=2){
-				$('.range').append('<div style="background-color:'+colors.hour[i]+';">'+i+':00</div>');
-			}
-		} else if (range === 2) {
-			range = 3;
-			for (var i = 1 ; i<7 ; i+=1){
-				$('.range').append('<div style="background-color:'+colors.day[i]+';">'+colors.dayName[i]+'</div>');
-			}
-			/* Dodatkowa linijka przenosząca niedziele na koniec listy */
-			$('.range').append('<div style="background-color:'+colors.day[0]+';">'+colors.dayName[0]+'</div>');
-		} else {
-			range = 0;
-			for (var i = 1 ; i<7 ; i+=1){
-				$('.range').append('<div style="background-color:'+colors.year[i]+';">'+(i+2010)+'</div>');
-			}
-		}
-		if (map !== 'start') {
-			changeMap();
-		} else if (trk[0]) {
-			mapLoad();
-			changeMap();
-		}
+
+	/* Wybranie elementu z wybranego zakresu */
+	if (selected !== 'all') {
+		$('.range div').removeClass('selected');
+		$('.range div:nth-child('+(selected+1)+')').addClass('selected');
+	}
 }
 
 /* Status ładowanych plików */
@@ -94,7 +114,7 @@ function getPoints(id, title, data)	{
 			trk[id] = [trkpt, trktime];
 
 			var trkdate = new Date(trk[id][1][0]);
-			$('#track'+id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<section class="trackmenu"><button><i class="flaticon-eye"></i></button> <button onclick="del('+id+')"><i class="flaticon-remove"></i></button></section>');
+			$('#track'+id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<section class="trackmenu"><button onclick="del('+id+')"><i class="flaticon-remove"></i></button></section>');
 			filesStatus();
 		}
 	} else if (title.slice(-4) === '.tcx') {
@@ -110,7 +130,7 @@ function getPoints(id, title, data)	{
 			trk[id] = [trkpt, trktime];
 
 			var trkdate = new Date(trk[id][1][0]);
-			$('#track'+id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<section class="trackmenu"><button><i class="flaticon-eye"></i></button> <button onclick="del('+id+')"><i class="flaticon-remove"></i></button></section>');
+			$('#track'+id).addClass('complete').append(trkpt.length+'pkt | '+trkdate.getFullYear()+' '+(trkdate.getMonth()+1)+' '+trkdate.getDate()+'<section class="trackmenu"><button onclick="del('+id+')"><i class="flaticon-remove"></i></button></section>');
 			filesStatus();
 		}
 	} else {
@@ -118,6 +138,16 @@ function getPoints(id, title, data)	{
 		filesStatus();
 	}
 }
+
+/* Dodawanie opcji w zakładce legendy */
+function legendMenu() {
+	var list = '';
+	for (var i = 0; i < 12 ; i++)	{
+		list += '<option value="'+i+'">'+strokes.color.monthName[i]+'</option>';
+	}
+	$('select[name="m"]').append(list);
+}
+legendMenu();
 
 $(document).ready(function(){
 
@@ -152,6 +182,20 @@ $(document).ready(function(){
 	/* Wybieranie tras na mapie */
 	$('.fm').click(	findMap );
 
-	changeRange()
+	/* Wyświetlanie wybranego miesiąca */
+	$('select[name="m"]').change( function () {
+		var selected = Number($(this).val());
+		changeRange(1, selected);
+		changeMap('m', selected);
+	})
 
+	/* Zmiana prędkości animacji */
+	$("#antime").change( function () {
+		mapAnimationStop();
+		if (anLast !== '') {
+			mapAnimation( anLast );
+		}
+	});
+
+	changeRange('auto', 'all');
 });

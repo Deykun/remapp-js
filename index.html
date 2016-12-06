@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>scieski 0.7</title>
+	<title>scieski 0.75</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
 	<link href="css\flaticon\flaticon.css" rel="stylesheet">
 	<link href="css\gui.css" rel="stylesheet">
@@ -11,7 +11,7 @@
 	<div id="map"></div>
 
 	<div class="legend">
-		<section class="range" onclick="changeRange('auto')"></section>
+		<section class="range" onclick="changeRange('auto','all')"></section>
 	</div>
 
 	<header>
@@ -31,6 +31,14 @@
 	</header>
 
 	<div class="remapp">
+		<!-- Menu -->
+		<nav>
+			<button class="tr">trasy</button>
+			<button class="lg">legenda</button>
+			<button class="an">animacja</button>
+			<button class="mp">mapa</button>
+		</nav>
+
 		<!-- Panel powitalny -->
 		<div class="introduction">
 			<h2>Witaj!</h2>
@@ -38,15 +46,6 @@
 			<p>Kliknij <button class="ex">tutaj</button> jeśli chcesz załadować przykładowe trasy i przetestować działanie tej strony.</p>
 			<button class="in">zamknij powitanie</button>
 		</div>
-
-		<!-- Menu -->
-		<nav>
-			<button class="tr">trasy</button>
-			<button class="lg">legenda</button>
-			<button class="an">animacja</button>
-			<br>
-			<button class="mp">mapa</button>
-		</nav>
 
 		<!-- Panel tras -->
 		<div class="panel tracks">
@@ -63,9 +62,7 @@
 		<!-- Panel legendy -->
 		<div class="panel legends">
 			<h3 class="lg">Legenda</h3>
-			<button onclick="changeRange(1)">zmień na miesiące</button>
-			<button onclick="changeRange(2)">zmień na godziny</button>
-			<button onclick="changeRange('auto')">zmień przedział</button>
+			<select name="m"></select> <button onclick="changeRange(1)">wszystkie miesiące</button> <button onclick="changeRange(2)">wszystkie godziny</button>
 		</div>
 
 		<!-- Panel animacji -->
@@ -73,17 +70,22 @@
 			<h3 class="an">Animacja</h3>
 			<button onclick="mapAnimation('m')">mięsiące</button>
 			<h4>Prędkość animacji:</h4>
-			szybko <input type="range" id="antime" min="150" max="5000" step="50" value="1000"> wolno
+			szybko <input type="range" id="antime" min="250" max="7500" step="50" value="1000"> wolno
 
 			<button onclick="mapAnimationStop()">zatrztymaj animacje</button>
-
 		</div>
+
+		<!-- Stopka -->
+		<footer>
+			<small><a href="https://github.com/Deykun/scieski-js">GitHub</a> | ikony z <a href="http://www.flaticon.com">flaticon</a> (<a href="http://creativecommons.org/licenses/by/3.0/">CC</a>: <a data-file="top" href="http://www.freepik.com">freepik</a>).
+     </small>
+		</footer>
 	</div>
 
 
 	<script src="src\jquery-3.1.1.min.js"></script>
 
-	<script src="src\colors.js"></script>
+	<script src="src\defaultstyles.js"></script>
 	<script src="src\remapp.js"></script>
 	<script src="src\googlemaps.js"></script>
 	<script src="src\examples.js"></script>

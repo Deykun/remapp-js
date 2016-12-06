@@ -10,14 +10,19 @@ $transitionTime: .5s;
 	box-sizing: border-box;
 }
 
-body, button {
+body, button, a {
 	font-family: 'Josefin Sans', sans-serif;
 	color: $colorText;
 }
 
+a {
+	text-decoration: none;
+}
+
 button {
 	background-color: rgba(255,255,255,0);
-	border: rgba(255,255,255,0);
+	border: 1px solid #fff;
+	border-radius: 3px;
 }
 
 #map {
@@ -68,7 +73,7 @@ button {
 			}
 
 			transition: .5s;
-			&:hover {
+			&:hover, &.selected {
 				color: rgba(255,255,255,1);
 				text-align: center;
 
@@ -194,6 +199,25 @@ header {
 		background-color: $colorBody;
 
 		transition: right $transitionTime;
+	}
+
+	/* Stopka */
+	footer {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+
+		width: 25vw;
+		min-width: 250px;
+
+		font-size: 10px;
+		text-align: center;
+		z-index: 125;
+
+
+		padding: 10px;
+
+		background-color: $colorBody;
 	}
 
 	/* Lista tras */
