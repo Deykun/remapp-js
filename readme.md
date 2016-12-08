@@ -1,18 +1,21 @@
 # scieski
 
-## http://deykun.boo.pl/lab/scieski/ - wersja 0.75
+## http://deykun.boo.pl/lab/scieski/ - wersja 0.8
 
 ## Cel
 W założeniu skrypt ma na podstawie pobranych i skopiowanych do wskazanego folderu tras Endomondo generować mapy których domyślnie serwis ten nie generuje.
 
-### Wersja 0.75
-- dopasowanie legendy do animacja (wyróżnienie miesiąca)
-- możliwość wyświetlenia wybranego miesiąca w zakładce "legenda"
+### Wersja 0.8
+- dodanie animacji i możliwości wyboru mapy dla dnia tygodnia
 
 ## Wcześniejsze wersje
 
+#### Wersja 0.75
+- dopasowanie legendy do animacja (wyróżnienie miesiąca)
+- możliwość wyświetlenia wybranego miesiąca w zakładce "legenda"
+
 #### Wersja 0.7
-- dodanie zakładk "animacja" z opcją "miesiące" która pokazuje trasy z wybranego miesiąca (z zarysem poprzedniego i następnego miesiąca)
+- dodanie zakładki "animacja" z opcją "miesiące" która pokazuje trasy z wybranego miesiąca (z zarysem poprzedniego i następnego miesiąca)
 - możliwość ustawienia szybkości animacji od 0,15s do 5s.
 - dodanie zakładki "legenda" pozwalającej wybrać bezpośrednio jej zakres na miesiąc lub godzine
 
@@ -29,12 +32,6 @@ W założeniu skrypt ma na podstawie pobranych i skopiowanych do wskazanego fold
 
 #### Wersja 0.5
 - tryb lokalizacji w którym trasy można wybierać bezpośrednio na mapie
-
-#### Wersja 0.4
-- poprawa wyglądu, optymalizacja
-- legenda mapy
-
-![](http://deykun.boo.pl/lab/remapp/log/04/trasy.gif)
 
 #### Wcześniejsze wersje
 Zmiany we wcześniejszych wersjach można sprawdzić w poprzednich wersjach tego pliku.

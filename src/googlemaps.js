@@ -31,22 +31,37 @@ function changeMap(datetype, daterange) {
 
 	/* Ustawia nowe markery na mapie */
 	for (var i = 0, newmarker, imax = trk.length ; i < imax ; i+=1) {
-		if (datetype === 'm') {
+		if (datetype === 'm' || datetype === 'd' ) {
 			/* Ustalenie sąsiadujących miesięcy */
 			var prevrange = daterange-1;
 			var nextrange = daterange+1;
-			switch (daterange) {
-				case 0:
-					prevrange = 11;
+
+			switch (datetype) {
+				case 'm':
+					trkrange = Number(new Date(trk[i][1][0]).getMonth());
+					color = strokes.color.month[new Date(trk[i][1][0]).getMonth()];
+					switch (daterange) {
+						case 0: prevrange = 11;
+							break;
+						case 11: nextrange = 0;
+							break;
+					}
 					break;
-				case 11:
-					nextrange = 0;
+				case 'd':
+					trkrange = Number(new Date(trk[i][1][0]).getDay());
+					color = strokes.color.month[new Date(trk[i][1][0]).getDay()];
+					switch (daterange) {
+						case 0: prevrange = 6;
+							break;
+						case 6: nextrange = 0;
+							break;
+					}
 					break;
+				default:
+
 			}
 
-			var trkmonth = Number(new Date(trk[i][1][0]).getMonth());
-			color = strokes.color.month[new Date(trk[i][1][0]).getMonth()];
-			if ( trkmonth === daterange) {
+			if ( trkrange === daterange) {
 				/* Dokładnie ten miesiąc */
 				newmarker = new google.maps.Polyline({
 					path: trk[i][0],
@@ -61,7 +76,11 @@ function changeMap(datetype, daterange) {
 				marker.push(newmarker);
 				marker[idm].setMap(map);
 
-			} else if ( trkmonth === prevrange || trkmonth === nextrange ) {
+				/* Jeżeli włączono tryb szukania */
+				if (finder) {
+					marker[idm].addListener('click', pickPolyline);
+				}
+			} else if ( trkrange === prevrange || trkrange === nextrange ) {
 				/* Sąsiedztwo wskazanego miesiąca */
 				newmarker = new google.maps.Polyline({
 					path: trk[i][0],
@@ -72,26 +91,28 @@ function changeMap(datetype, daterange) {
 					label: i
 				});
 
-
 				idm = marker.length;
 				marker.push(newmarker);
 				marker[idm].setMap(map);
-			}
 
+				/* Jeżeli włączono tryb szukania */
+				if (finder) {
+					marker[idm].addListener('click', pickPolyline);
+				}
+			}
 		}	else {
 			/* Tryb domyślny pokazujący wszystkie trasy */
 			/* Ustalanie koloru linii dla wybranego zakresu */
 			var color;
 			switch (range) {
-				case 0: color = strokes.color.year[(new Date(trk[i][1][0]).getFullYear()-2010)];
+				case 'y': color = strokes.color.year[(new Date(trk[i][1][0]).getFullYear()-2010)];
 					break;
-				case 1: color = strokes.color.month[new Date(trk[i][1][0]).getMonth()];
+				case 'm': color = strokes.color.month[new Date(trk[i][1][0]).getMonth()];
 					break;
-				case 2: color = strokes.color.hour[new Date(trk[i][1][0]).getHours()];
+				case 'd': color = strokes.color.day[new Date(trk[i][1][0]).getDay()];
 					break;
-				case 3: color = strokes.color.day[new Date(trk[i][1][0]).getDay()];
+				case 'h': color = strokes.color.hour[new Date(trk[i][1][0]).getHours()];
 					break;
-
 				default: color = '#000';
 			}
 
@@ -185,21 +206,26 @@ function mapAnimation(datetype) {
 	var anTime = Number($('#antime').val());
 	anLast = datetype;
 
-	if (datetype === 'm'){
-		var i = 0;
-
+	if (datetype === 'm' || datetype === 'd'){
+		var i = 0, imax = 0;
+		switch (datetype) {
+			case 'm': imax = 12;
+				break;
+			case 'd': imax = 7;
+				break;
+		}
 		/* Wybranie zakresu animacji i mapy */
-		changeRange(1, i);
-		changeMap('m', i);
+		changeRange(datetype, i);
+		changeMap(datetype, i);
 
 		anMap = setInterval( function() {
 			i++;
-			if (i === 12) {
+			if (i === imax) {
 				i = 0;
 			}
 
 			changeRange('animation', i);
-			changeMap('m', i);
+			changeMap(datetype, i);
 		}, anTime);
 	}
 }

@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>scieski 0.75</title>
+	<title>scieski 0.8</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
 	<link href="css\flaticon\flaticon.css" rel="stylesheet">
 	<link href="css\gui.css" rel="stylesheet">
@@ -62,13 +62,15 @@
 		<!-- Panel legendy -->
 		<div class="panel legends">
 			<h3 class="lg">Legenda</h3>
-			<select name="m"></select> <button onclick="changeRange(1)">wszystkie miesiące</button> <button onclick="changeRange(2)">wszystkie godziny</button>
+			<select name="m"></select> <button onclick="changeRange( 'm', 'all' )">wszystkie miesiące</button>
+			<br><select name="d"></select> <button onclick="changeRange( 'd', 'all' )">wszystkie dni</button>
+			<br><button onclick="changeRange( 'h', 'all' )">wszystkie godziny</button>
 		</div>
 
 		<!-- Panel animacji -->
 		<div class="panel animation">
 			<h3 class="an">Animacja</h3>
-			<button onclick="mapAnimation('m')">mięsiące</button>
+			<button onclick="mapAnimation('m')">mięsiące</button> <button onclick="mapAnimation('d')">dni</button>
 			<h4>Prędkość animacji:</h4>
 			szybko <input type="range" id="antime" min="250" max="7500" step="50" value="1000"> wolno
 

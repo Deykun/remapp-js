@@ -21,59 +21,72 @@ function del(id) {
 }
 
 /* Funkcja odpwiedzialna za zmiane legendy mapy */
-var range = 3, legend = 'start';
+var range = 'h', legend = 'start';
 function changeRange(chrange, selected) {
+
 	/* Przerwanie animacji jeśli była włączona, a zmiana legendy nie wynika z jej działania */
 	if (chrange !== 'animation') {
 	mapAnimationStop();
 	}
 
-	/* Typ legendy */
+	/* Zmiana zakresu legendy */
 	if (chrange !== 'animation') {
-		if (chrange !== 'auto') {
-			if (chrange !== 3) {
-				range = chrange-1;
-			} else {
-				range = 0;
+
+		/* Jeżeli zakres ma zostać zmieniony na kolejny */
+		if (chrange === 'auto') {
+			switch (range) {
+				case 'y':	chrange = 'm';
+					break;
+				case 'm':	chrange = 'd';
+					break;
+				case 'd':	chrange = 'h';
+					break;
+				case 'h':	chrange = 'y';
+					break;
 			}
 		}
 
-		/* Zmiana zakresu legendy */
+		/* Sprawdzenie czy nowy zakres nie jest taki sam jak już ustawiony */
 		if (chrange !== range) {
-			if (legend !== 'start') {
-				if (map === 'start') {
-					mapLoad();
-				}
-				changeMap();
-			}
-			legend = 'started';
+			range = chrange;
+			$range = $('.range');
+			$range.empty();
 
-			$('.range').empty();
-				if (range === 0) {
-					range = 1;
+			switch (chrange) {
+				case 'y':
+					for (var i = 1 ; i<7 ; i+=1){
+						$range.append('<div style="background-color:'+strokes.color.year[i]+';">'+(i+2010)+'</div>');
+					}
+					break;
+				case 'm':
 					for (var i = 0 ; i<12 ; i+=1){
-						$('.range').append('<div style="background-color:'+strokes.color.month[i]+';">'+strokes.color.monthName[i]+'</div>');
+						$range.append('<div style="background-color:'+strokes.color.month[i]+';">'+strokes.color.monthName[i]+'</div>');
 					}
-				} else if (range === 1) {
-					range = 2;
+					break;
+				case 'd':
+					for (var i = 1 ; i<7 ; i+=1){
+						$range.append('<div style="background-color:'+strokes.color.day[i]+';">'+strokes.color.dayName[i]+'</div>');
+					}
+					$range.append('<div style="background-color:'+strokes.color.day[0]+';">'+strokes.color.dayName[0]+'</div>');
+					break;
+				case 'h':
 					for (var i = 0 ; i<24 ; i+=2){
-						$('.range').append('<div style="background-color:'+strokes.color.hour[i]+';">'+i+':00</div>');
+						$range.append('<div style="background-color:'+strokes.color.hour[i]+';">'+i+':00</div>');
 					}
-				} else if (range === 2) {
-					range = 3;
-					for (var i = 1 ; i<7 ; i+=1){
-						$('.range').append('<div style="background-color:'+strokes.color.day[i]+';">'+strokes.color.dayName[i]+'</div>');
-					}
-					/* Dodatkowa linijka przenosząca niedziele na koniec listy */
-					$('.range').append('<div style="background-color:'+strokes.color.day[0]+';">'+strokes.color.dayName[0]+'</div>');
-				} else {
-					range = 0;
-					for (var i = 1 ; i<7 ; i+=1){
-						$('.range').append('<div style="background-color:'+strokes.color.year[i]+';">'+(i+2010)+'</div>');
-					}
-				}
+					break;
+			}
 		}
 	}
+
+	/* Sprawdzenie czy mapa została załadowana i ewentualne jej załadowanie */
+	if (legend !== 'start') {
+		if (map === 'start') {
+			mapLoad();
+		}
+		changeMap();
+	}
+	/* Zapobiegniecie niepotrzebnemu wywołaniu mapy przy pierwszym wyświetleniu mapy */
+	legend = 'started';
 
 	/* Wybranie elementu z wybranego zakresu */
 	if (selected !== 'all') {
@@ -146,6 +159,13 @@ function legendMenu() {
 		list += '<option value="'+i+'">'+strokes.color.monthName[i]+'</option>';
 	}
 	$('select[name="m"]').append(list);
+
+	list = '';
+	for (var i = 1; i < 7 ; i++)	{
+		list += '<option value="'+ (i-1) +'">'+strokes.color.dayName[i]+'</option>';
+	}
+	list += '<option value="6">'+strokes.color.dayName[0]+'</option>';
+	$('select[name="d"]').append(list);
 }
 legendMenu();
 
@@ -183,10 +203,11 @@ $(document).ready(function(){
 	$('.fm').click(	findMap );
 
 	/* Wyświetlanie wybranego miesiąca */
-	$('select[name="m"]').change( function () {
+	$('select[name="m"], select[name="d"]').change( function () {
+		var selectedrange = $(this).attr('name');
 		var selected = Number($(this).val());
-		changeRange(1, selected);
-		changeMap('m', selected);
+		changeRange(selectedrange, selected);
+		changeMap(selectedrange, selected);
 	})
 
 	/* Zmiana prędkości animacji */
