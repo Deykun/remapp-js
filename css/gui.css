@@ -13,36 +13,38 @@ a {
 
 button {
   background-color: rgba(255, 255, 255, 0);
-  border: 1px solid #fff;
+  border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 3px; }
+  button:hover {
+    border: 1px solid white; }
+
+.map {
+  position: relative; }
 
 #map {
   height: 100vh;
   background-color: #e5e3df; }
 
 .legend {
-  position: fixed;
+  position: absolute;
   bottom: 10px;
   left: 50%;
   width: 620px;
   text-align: center;
   transform: translate(-50%, 0); }
-  .legend:hover .range-options {
-    opacity: 1;
-    height: 30px; }
   .legend .range {
     width: 620px; }
     .legend .range div {
       display: inline-block;
       text-align: center;
       cursor: help;
+      transition: 0.5s;
       overflow: hidden;
       color: rgba(255, 255, 255, 0);
       height: 20px;
       line-height: 20px;
       width: 50px;
-      font-size: 10px;
-      transition: .5s; }
+      font-size: 10px; }
       .legend .range div:first-child, .legend .range div:last-child {
         color: white; }
       @media (max-width: 800px) {
@@ -93,7 +95,7 @@ header {
     header.show svg #logo {
       fill: #fff; }
 
-.remapp {
+.menu {
   position: fixed;
   top: 0;
   right: 0;
@@ -110,15 +112,15 @@ header {
   /* Stopka */
   /* Lista tras */ }
   @media (max-width: 1000px) {
-    .remapp {
+    .menu {
       margin-right: -250px; } }
-  .remapp.show {
+  .menu.show {
     margin-right: 0; }
-  .remapp p {
+  .menu p {
     margin: 5px 0;
     text-align: justify;
     text-indent: 2em; }
-  .remapp .panel {
+  .menu .panel {
     position: absolute;
     bottom: 0;
     right: -25vw;
@@ -129,13 +131,13 @@ header {
     background-color: #689756;
     transition: right 0.5s; }
     @media (max-width: 1000px) {
-      .remapp .panel {
+      .menu .panel {
         right: -250px; } }
-    .remapp .panel.show {
+    .menu .panel.show {
       right: 0; }
-    .remapp .panel h3 {
+    .menu .panel h3 {
       cursor: pointer; }
-  .remapp footer {
+  .menu footer {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -146,20 +148,20 @@ header {
     z-index: 125;
     padding: 10px;
     background-color: #689756; }
-  .remapp #add-tracks {
+  .menu #add-tracks {
     display: none; }
-  .remapp #status-tracks {
+  .menu #status-tracks {
     float: right; }
-  .remapp .scroll {
+  .menu .scroll {
     position: relative;
     min-height: 0;
     max-height: 60vh;
     margin-left: 20px;
     overflow-y: scroll; }
-  .remapp ul {
+  .menu ul {
     position: relative;
     visibility: visible; }
-    .remapp ul li {
+    .menu ul li {
       position: relative;
       overflow-x: hidden;
       font-size: 10px;
@@ -167,19 +169,43 @@ header {
       border-bottom: 1px solid #000;
       transition: .2s;
       /* Dla za┼éadowanych tras */ }
-      .remapp ul li .trackmenu {
+      .menu ul li .trackmenu {
         position: absolute;
         bottom: 0;
         right: -70px;
         text-align: center;
         transition: .3s; }
-        .remapp ul li .trackmenu button {
+        .menu ul li .trackmenu button {
           width: 35px; }
-      .remapp ul li:hover .trackmenu {
+      .menu ul li:hover .trackmenu {
         right: 0; }
-      .remapp ul li:last-child {
+      .menu ul li:last-child {
         border-bottom: 0px; }
-      .remapp ul li.chosen {
+      .menu ul li.chosen {
         color: #000; }
+
+#composition {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  /* Usuwa podpisy, warunki u┼╝ytkowania z map w siatce */ }
+  #composition .cpbox {
+    position: relative;
+    flex: 1 1 30%;
+    height: calc(100vh / 3);
+    color: #689756;
+    background-color: #e5e3df;
+    border: 1px dashed rgba(255, 255, 255, 0); }
+    #composition .cpbox:hover {
+      border: 1px dashed #689756; }
+    #composition .cpbox h2 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
+  #composition .gm-style-cc {
+    display: none; }
+    #composition .gm-style-cc:last-child {
+      display: block; }
 
 /*# sourceMappingURL=gui.css.map */

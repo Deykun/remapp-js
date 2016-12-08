@@ -83,7 +83,7 @@ function changeRange(chrange, selected) {
 		if (map === 'start') {
 			mapLoad();
 		}
-		changeMap();
+		changeMap('map');
 	}
 	/* Zapobiegniecie niepotrzebnemu wywołaniu mapy przy pierwszym wyświetleniu mapy */
 	legend = 'started';
@@ -173,31 +173,41 @@ $(document).ready(function(){
 
 	/* Wysuniecie menu */
 	$('header').click( function() {
-		$('.remapp, header').toggleClass('show'); });
+		$('.menu, header').toggleClass('show'); });
 
 	/* Ukrycie wiadomości powitalnej */
 	$('.in').click( function() {
 		$('.introduction').hide(); });
 
-	/* Wysunięcie panelu tras */
-	$('.tr').click( function() {
-			$('.panel:not(.tracks)').removeClass('show');
-			$('.tracks').toggleClass('show'); });
 
-	/* Wysunięcie panelu legendy */
-	$('.lg').click( function() {
-			$('.panel:not(.legends)').removeClass('show');
-			$('.legends').toggleClass('show'); });
+	/* Wysuwanie paneli */
+	$('nav button:not(.mp), .panel h3').click( function() {
+		/* Wybranie panelu */
+		var panel = $(this).attr('class');
+		switch (panel) {
+			case 'tr': panel = '.tracks';
+				break;
+			case 'lg': panel = '.legends';
+				break;
+			case 'an': panel = '.animation';
+				break;
+			case 'cp': panel = '.composition';
+				break;
+			default: panel = false;
+		}
 
-	/* Wysunięcie panelu legendy */
-	$('.an').click( function() {
-			$('.panel:not(.animation)').removeClass('show');
-			$('.animation').toggleClass('show'); });
+		/* Sprawdzenie czy wybrano dobry panel */
+		if (panel) {
+			$('.panel:not('+panel+')').removeClass('show');
+			$(panel).toggleClass('show');
+		}
+
+	});
 
 	/* Odświeżenie mapy */
 	$('.mp').click(	function() {
 			mapLoad();
-			$('.remapp, header').toggleClass('show'); });
+			$('.menu, header').toggleClass('show'); });
 
 	/* Wybieranie tras na mapie */
 	$('.fm').click(	findMap );
@@ -207,7 +217,7 @@ $(document).ready(function(){
 		var selectedrange = $(this).attr('name');
 		var selected = Number($(this).val());
 		changeRange(selectedrange, selected);
-		changeMap(selectedrange, selected);
+		changeMap('map', selectedrange, selected);
 	})
 
 	/* Zmiana prędkości animacji */

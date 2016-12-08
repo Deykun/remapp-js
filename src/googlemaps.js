@@ -1,37 +1,61 @@
 /* Generowanie mapy */
+mapbox = [[],[],[],[]];
 map = 'start';
-function mapLoad() {
-	if (map === 'start') {
-		var center, zoom;
-		if (trk[0]) {
-			center = trk[0][0][0];
-			zoom = 13;
-		} else {
-			center = {lat: 52.03, lng: 19.27};
-			zoom = 6;
-		}
-		map = new google.maps.Map(document.getElementById('map'), {
-			zoom: zoom,
+function mapLoad(box, col, row) {
+	var center, zoom;
+	if (trk[0]) {
+		center = trk[0][0][0];
+		zoom = 13;
+	} else {
+		center = {lat: 52.03, lng: 19.27};
+		zoom = 6;
+	}
+
+	/* Mapa główna */
+	if (box === 'cp') {
+		mapbox[col][row] = new google.maps.Map(document.getElementById('cpb-'+col+'-'+row), {
+			zoom: 11,
 			center: center,
-			mapTypeControl: false,
+			disableDefaultUI: true,
 			styles: mapStyle
 		});
+		markers[col+'-'+row] = [col+'-'+row];
+		changeMap(col+'-'+row);
+	} else {
+		if (map === 'start') {
+			map = new google.maps.Map(document.getElementById('map'), {
+				zoom: zoom,
+				center: center,
+				mapTypeControl: false,
+				styles: mapStyle
+			});
+		}
+		markers['map'] = ['map'];
+		changeMap('map');
 	}
-	changeMap();
 }
 
-/* Wybór markerów na mapie */
-marker = [], polyline = [];
-var changing = 0;
-function changeMap(datetype, daterange) {
+/* Funkcja odpowiedzialna za zmiane mapy */
+markers = [], marker = [], polyline = [];
+function changeMap(mapid, datetype, daterange) {
+	var chmap = map;
+	marker = markers[mapid];
+	console.log('marker'+mapid+'l'+marker.length);
+	/* Jeżeli zmieniana będzie mapa z kompozycji */
+	if (mapid !== 'map') {
+		chmap = mapbox[mapid.split('-')[0]][mapid.split('-')[1]];
+	}
+
 	/* Usuwa obecne na mapie markery */
-	for (var i = 0, imax = marker.length ; i < imax ; i+=1)	{
+	for (var i = 1, imax = marker.length ; i < imax ; i+=1)	{
+		console.log(i+'marker'+mapid);
 		marker[i].setMap(null);
 	}
+	marker = [mapid];
 
 	/* Ustawia nowe markery na mapie */
 	for (var i = 0, newmarker, imax = trk.length ; i < imax ; i+=1) {
-		if (datetype === 'm' || datetype === 'd' ) {
+		if (daterange !== 'all' && (datetype === 'm' || datetype === 'd')) {
 			/* Ustalenie sąsiadujących miesięcy */
 			var prevrange = daterange-1;
 			var nextrange = daterange+1;
@@ -57,11 +81,9 @@ function changeMap(datetype, daterange) {
 							break;
 					}
 					break;
-				default:
-
 			}
 
-			if ( trkrange === daterange) {
+			if ( trkrange === daterange ) {
 				/* Dokładnie ten miesiąc */
 				newmarker = new google.maps.Polyline({
 					path: trk[i][0],
@@ -73,8 +95,9 @@ function changeMap(datetype, daterange) {
 				});
 
 				idm = marker.length;
+				console.log(i+'zapisane jako'+idm);
 				marker.push(newmarker);
-				marker[idm].setMap(map);
+				marker[idm].setMap(chmap);
 
 				/* Jeżeli włączono tryb szukania */
 				if (finder) {
@@ -92,8 +115,9 @@ function changeMap(datetype, daterange) {
 				});
 
 				idm = marker.length;
+				console.log(i+'zapisane jako'+idm);
 				marker.push(newmarker);
-				marker[idm].setMap(map);
+				marker[idm].setMap(chmap);
 
 				/* Jeżeli włączono tryb szukania */
 				if (finder) {
@@ -116,7 +140,7 @@ function changeMap(datetype, daterange) {
 				default: color = '#000';
 			}
 
-			marker[i] = new google.maps.Polyline({
+			newmarker = new google.maps.Polyline({
 				path: trk[i][0],
 				geodesic: true,
 				strokeColor: color,
@@ -125,18 +149,20 @@ function changeMap(datetype, daterange) {
 				label: i
 			});
 
-			marker[i].setMap(map);
+			idm = marker.length;
+			console.log(i+'zapisane jako'+idm);
+			marker.push(newmarker);
+			marker[idm].setMap(chmap);
 		}
-
 
 		/* Jeżeli włączono tryb szukania */
 		if (finder) {
-			marker[i].addListener('click', pickPolyline);
+			marker[idm].addListener('click', pickPolyline);
 		}
 	}
 
-	/* Zmniejszenie licznika obecnie wywoływanych funkcji przeładowywania mapy */
-	changing--;
+	/* Zapisanie markerków mapy w tablicy */
+	markers[mapid] = marker;
 }
 
 finder = false;
@@ -157,11 +183,11 @@ function findMap() {
 		}
 		$('li').removeClass('chosen');
 		finder = false;
-		changeMap();
+		changeMap('map');
 	} else {
 		strokeStyle = strokes.weight.finder;
 		finder = true;
-		changeMap();
+		changeMap('map');
 	}
 }
 
@@ -173,8 +199,8 @@ function pickPolyline() {
 	id.addClass('chosen');
 
 	/* Otwieranie zakładki z trasami jeśli jest ona zamknięta */
-	if (!$('.remapp').hasClass('show'))	{
-		$('.remapp, header').addClass('show');
+	if (!$('.menu').hasClass('show'))	{
+		$('.menu, header').addClass('show');
 	}
 	if (!$('.tracks').hasClass('show'))	{
 		$('.panel').removeClass('show');
@@ -216,7 +242,7 @@ function mapAnimation(datetype) {
 		}
 		/* Wybranie zakresu animacji i mapy */
 		changeRange(datetype, i);
-		changeMap(datetype, i);
+		changeMap('map', datetype, i);
 
 		anMap = setInterval( function() {
 			i++;
@@ -225,7 +251,7 @@ function mapAnimation(datetype) {
 			}
 
 			changeRange('animation', i);
-			changeMap(datetype, i);
+			changeMap('map', datetype, i);
 		}, anTime);
 	}
 }

@@ -2,18 +2,25 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>scieski 0.8</title>
+	<title>scieski 0.85</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
 	<link href="css\flaticon\flaticon.css" rel="stylesheet">
 	<link href="css\gui.css" rel="stylesheet">
 </head>
 <body>
-	<div id="map"></div>
-
-	<div class="legend">
-		<section class="range" onclick="changeRange('auto','all')"></section>
+	<!-- Mapa -->
+	<div class="map">
+		<div id="map"></div>
+		<!-- Legenda mapy -->
+		<div class="legend">
+			<section class="range" onclick="changeRange('auto','all')"></section>
+		</div>
 	</div>
 
+	<!-- Kompozycja map -->
+	<div id="composition"></div>
+
+	<!-- Logo -->
 	<header>
 		<h1>scieski</h1>
 		<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
@@ -30,12 +37,14 @@
 		 </svg>
 	</header>
 
-	<div class="remapp">
-		<!-- Menu -->
+	<!-- Główne menu -->
+	<div class="menu">
+		<!-- Nawigacja -->
 		<nav>
 			<button class="tr">trasy</button>
 			<button class="lg">legenda</button>
 			<button class="an">animacja</button>
+			<button class="cp">kompozycja</button>
 			<button class="mp">mapa</button>
 		</nav>
 
@@ -77,6 +86,14 @@
 			<button onclick="mapAnimationStop()">zatrztymaj animacje</button>
 		</div>
 
+		<!-- Panel Kompozycji -->
+		<div class="panel composition">
+			<h3 class="cp">Kompozycja</h3>
+			<button  onclick="makeGrid(3,3)">3x3</button>
+
+			<button  onclick="days()">dni</button>
+		</div>
+
 		<!-- Stopka -->
 		<footer>
 			<small><a href="https://github.com/Deykun/scieski-js">GitHub</a> | ikony z <a href="http://www.flaticon.com">flaticon</a> (<a href="http://creativecommons.org/licenses/by/3.0/">CC</a>: <a data-file="top" href="http://www.freepik.com">freepik</a>).
@@ -84,12 +101,11 @@
 		</footer>
 	</div>
 
-
 	<script src="src\jquery-3.1.1.min.js"></script>
-
 	<script src="src\defaultstyles.js"></script>
 	<script src="src\remapp.js"></script>
 	<script src="src\googlemaps.js"></script>
+	<script src="src\composition.js"></script>
 	<script src="src\examples.js"></script>
 
 	<script async defer src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>

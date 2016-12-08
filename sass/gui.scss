@@ -21,8 +21,16 @@ a {
 
 button {
 	background-color: rgba(255,255,255,0);
-	border: 1px solid #fff;
+	border: 1px solid  rgba(255,255,255,0);
 	border-radius: 3px;
+
+	&:hover {
+		 border: 1px solid  rgba(255,255,255,1);
+	}
+}
+
+.map {
+	position: relative;
 }
 
 #map {
@@ -32,7 +40,7 @@ button {
 }
 
 .legend {
-	position: fixed;
+	position: absolute;
 	bottom: 10px;
 	left: 50%;
 
@@ -40,11 +48,6 @@ button {
 	text-align: center;
 
 	transform: translate(-50%,0);
-
-	&:hover .range-options {
-		opacity: 1;
-		height: 30px;
-	}
 
 	.range {
 		width: 620px;
@@ -54,8 +57,11 @@ button {
 			text-align: center;
 			cursor: help;
 
+			transition: $transitionTime;
+
 			overflow: hidden;
 			color: rgba(255,255,255,0);
+
 			&:first-child, &:last-child {
 				color: rgba(255,255,255,1);
 			}
@@ -72,7 +78,6 @@ button {
 				font-size: 9px;
 			}
 
-			transition: .5s;
 			&:hover, &.selected {
 				color: rgba(255,255,255,1);
 				text-align: center;
@@ -142,7 +147,7 @@ header {
 	}
 }
 
-.remapp {
+.menu {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -284,6 +289,43 @@ header {
 			&.complete {
 
 			}
+		}
+	}
+}
+
+#composition {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	.cpbox {
+		position: relative;
+		flex: 1 1 30%;
+		height: calc(100vh / 3);;
+
+		color: $colorBody;
+		background-color: $colorMap;
+
+		border: 1px dashed rgba(255,255,255,0);
+
+		&:hover {
+			border: 1px dashed $colorBody;
+		}
+
+		h2 {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+
+			transform: translate(-50%,-50%);
+		}
+	}
+
+	/* Usuwa podpisy, warunki użytkowania z map w siatce */
+	.gm-style-cc {
+		display:none;
+
+		&:last-child {
+			display: block;
 		}
 	}
 }
