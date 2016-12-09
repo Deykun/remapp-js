@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>scieski 0.85</title>
+	<title>scieski 0.86</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
 	<link href="css\flaticon\flaticon.css" rel="stylesheet">
 	<link href="css\gui.css" rel="stylesheet">
@@ -62,8 +62,7 @@
 			<input id="add-tracks" type="file" multiple>
 			<label for="add-tracks"><i class="flaticon-folder"></i> Dodaj trasy </label> <span id="status-tracks"></span>
 			<section class="scroll">
-				<ul id="tracks">
-				</ul>
+				<ul id="tracks"></ul>
 			</section>
 			<button class="fm">tryb lokalizacji</button>
 		</div>
@@ -71,9 +70,9 @@
 		<!-- Panel legendy -->
 		<div class="panel legends">
 			<h3 class="lg">Legenda</h3>
-			<select name="m"></select> <button onclick="changeRange( 'm', 'all' )">wszystkie miesiące</button>
-			<br><select name="d"></select> <button onclick="changeRange( 'd', 'all' )">wszystkie dni</button>
-			<br><button onclick="changeRange( 'h', 'all' )">wszystkie godziny</button>
+			<section class="scroll">
+				<ul id="styles"></ul>
+			</section>
 		</div>
 
 		<!-- Panel animacji -->
@@ -82,8 +81,12 @@
 			<button onclick="mapAnimation('m')">mięsiące</button> <button onclick="mapAnimation('d')">dni</button>
 			<h4>Prędkość animacji:</h4>
 			szybko <input type="range" id="antime" min="250" max="7500" step="50" value="1000"> wolno
-
 			<button onclick="mapAnimationStop()">zatrztymaj animacje</button>
+
+			<h4>Klatki animacji</h4>
+			<select name="m"></select> <button onclick="changeRange( 'm', 'all' )">wszystkie miesiące</button>
+			<br><select name="d"></select> <button onclick="changeRange( 'd', 'all' )">wszystkie dni</button>
+			<br><button onclick="changeRange( 'h', 'all' )">wszystkie godziny</button>
 		</div>
 
 		<!-- Panel Kompozycji -->

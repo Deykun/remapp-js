@@ -1,16 +1,20 @@
 # scieski
 
-## http://deykun.boo.pl/lab/scieski/ - wersja 0.85
+## http://deykun.boo.pl/lab/scieski/ - wersja 0.86
 
 ## Cel
 W założeniu skrypt ma na podstawie tras Endomondo generować mapy których domyślnie serwis ten nie generuje.
 
-### Wersja 0.85
-- dodanie zakładki "kompozycja" z możliwością wygenerowania mozaiki map przedstawiajacych trasy dla dni tygodnia
+### Wersja 0.86
+- przygotowanie zakładki "legenda" do opcji zmiany kolorów wybranych elementów
 
 ## Wcześniejsze wersje
 
-### Wersja 0.8
+#### Wersja 0.85
+- dodanie zakładki "kompozycja" z możliwością wygenerowania mozaiki map przedstawiajacych trasy dla dni tygodnia
+![](http://deykun.boo.pl/lab/ilustracje/scieski/0.85/kompozycja.gif)
+
+#### Wersja 0.8
 - dodanie animacji i możliwości wyboru mapy dla dnia tygodnia
 
 #### Wersja 0.75

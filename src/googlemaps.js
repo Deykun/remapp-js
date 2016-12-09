@@ -40,7 +40,6 @@ markers = [], marker = [], polyline = [];
 function changeMap(mapid, datetype, daterange) {
 	var chmap = map;
 	marker = markers[mapid];
-	console.log('marker'+mapid+'l'+marker.length);
 	/* Jeżeli zmieniana będzie mapa z kompozycji */
 	if (mapid !== 'map') {
 		chmap = mapbox[mapid.split('-')[0]][mapid.split('-')[1]];
@@ -48,7 +47,6 @@ function changeMap(mapid, datetype, daterange) {
 
 	/* Usuwa obecne na mapie markery */
 	for (var i = 1, imax = marker.length ; i < imax ; i+=1)	{
-		console.log(i+'marker'+mapid);
 		marker[i].setMap(null);
 	}
 	marker = [mapid];
@@ -95,7 +93,6 @@ function changeMap(mapid, datetype, daterange) {
 				});
 
 				idm = marker.length;
-				console.log(i+'zapisane jako'+idm);
 				marker.push(newmarker);
 				marker[idm].setMap(chmap);
 
@@ -115,7 +112,6 @@ function changeMap(mapid, datetype, daterange) {
 				});
 
 				idm = marker.length;
-				console.log(i+'zapisane jako'+idm);
 				marker.push(newmarker);
 				marker[idm].setMap(chmap);
 
@@ -150,7 +146,6 @@ function changeMap(mapid, datetype, daterange) {
 			});
 
 			idm = marker.length;
-			console.log(i+'zapisane jako'+idm);
 			marker.push(newmarker);
 			marker[idm].setMap(chmap);
 		}

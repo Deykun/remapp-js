@@ -2,18 +2,19 @@ trkpath = [], trk = [];
 
 /* Aktualizowanie ścieżek do przetwarzanych tras z input[file] */
 $("#add-tracks").change( function () {
-	var tracks = $('#tracks');
+	var $tracks = $('#tracks');
 
 	for (var i = 0, imax = this.files.length ; i < imax ; i+=1) {
 		var trkid = trkpath.length;
 		trkpath.push(this.files[i].name);
 		$('#status-tracks').empty().append('<i class="flaticon-wait"></i> ładowanie...');
-		tracks.prepend('<li id="track'+trkid+'"><h5>'+trkid+' : '+trkpath[trkid]+'</h5><i class="flaticon-pin2"></i> </li>');
+		$tracks.prepend('<li id="track'+trkid+'"><h5>'+trkid+' : '+trkpath[trkid]+'</h5><i class="flaticon-pin2"></i> </li>');
 		getPoints(trkid,trkpath[trkid],this.files[i]);
 		}
 
 });
 
+/* Funkcja usuwania trasy */
 function del(id) {
 	trk.splice(id, 1);
 	trkpath.splice(id, 1);
@@ -97,7 +98,7 @@ function changeRange(chrange, selected) {
 
 /* Status ładowanych plików */
 function filesStatus() {
-	if ($('li').length == $('li.complete').length) {
+	if ($('#tracks li').length == $('#tracks li.complete').length) {
 		$('#status-tracks').empty();
 	}
 }
@@ -166,6 +167,25 @@ function legendMenu() {
 	}
 	list += '<option value="6">'+strokes.color.dayName[0]+'</option>';
 	$('select[name="d"]').append(list);
+
+	list = '<li><h4>Rok</h4></li>';
+	for (var i = 1 ; i<7 ; i+=1){
+		list += '<li><h5>'+(i+2010)+'</h5> Kolor: '+strokes.color.year[i]+'</li>';
+	}
+	list += '<li><h4>Miesiąc</h4></li>';
+	for (var i = 0 ; i<12 ; i+=1){
+		list += '<li><h5>'+strokes.color.monthName[i]+'</h5> Kolor: '+strokes.color.month[i]+'</li>';
+	}
+	list += '<li><h4>Dzień tygodnia</h4></li>';
+	for (var i = 1 ; i<7 ; i+=1){
+		list += '<li><h5>'+strokes.color.dayName[i]+'</h5> Kolor: '+strokes.color.day[i]+'</li>';
+	}
+	list += '<li><h5>'+strokes.color.dayName[0]+'</h5> Kolor: '+strokes.color.day[0]+'</li>';
+	list += '<li><h4>Godziny</h4></li>';
+	for (var i = 0 ; i<24 ; i+=1){
+		list += '<li><h5>'+i+':00</h5> Kolor: '+strokes.color.hour[i]+'</li>';
+	}
+	$('#styles').append(list);
 }
 legendMenu();
 
