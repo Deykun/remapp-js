@@ -55,7 +55,7 @@ function changeRange(chrange, selected) {
 
 			switch (chrange) {
 				case 'y':
-					for (var i = 1 ; i<7 ; i+=1){
+					for (var i = 1 ; i<8 ; i+=1){
 						$range.append('<div style="background-color:'+strokes.color.year[i]+';">'+(i+2010)+'</div>');
 					}
 					break;
@@ -156,6 +156,12 @@ function getPoints(id, title, data)	{
 /* Dodawanie opcji w zakładce legendy */
 function legendMenu() {
 	var list = '';
+	for (var i = 2011; i < 2018 ; i++)	{
+		list += '<option value="'+i+'">'+i+'</option>';
+	}
+	$('select[name="y"]').append(list);
+
+	list = '';
 	for (var i = 0; i < 12 ; i++)	{
 		list += '<option value="'+i+'">'+strokes.color.monthName[i]+'</option>';
 	}
@@ -169,7 +175,7 @@ function legendMenu() {
 	$('select[name="d"]').append(list);
 
 	list = '<li><h4>Rok</h4></li>';
-	for (var i = 1 ; i<7 ; i+=1){
+	for (var i = 1 ; i<8 ; i+=1){
 		list += '<li><h5>'+(i+2010)+'</h5> Kolor: '+strokes.color.year[i]+'</li>';
 	}
 	list += '<li><h4>Miesiąc</h4></li>';
@@ -233,10 +239,17 @@ $(document).ready(function(){
 	$('.fm').click(	findMap );
 
 	/* Wyświetlanie wybranego miesiąca */
-	$('select[name="m"], select[name="d"]').change( function () {
+	$('select[name="y"], select[name="m"], select[name="d"]').change( function () {
 		var selectedrange = $(this).attr('name');
 		var selected = Number($(this).val());
-		changeRange(selectedrange, selected);
+
+		/* Zmiana wskaźnika w legendzie jeśli wybrany zostanie rok */
+		if (selectedrange === 'y') {
+			changeRange(selectedrange, selected-2011);
+		} else {
+			changeRange(selectedrange, selected);
+		}
+
 		changeMap('map', selectedrange, selected);
 	})
 

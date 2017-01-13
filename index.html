@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>scieski 0.86</title>
+	<title>scieski 0.861</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
 	<link href="css\flaticon\flaticon.css" rel="stylesheet">
 	<link href="css\gui.css" rel="stylesheet">
@@ -84,7 +84,8 @@
 			<button onclick="mapAnimationStop()">zatrztymaj animacje</button>
 
 			<h4>Klatki animacji</h4>
-			<select name="m"></select> <button onclick="changeRange( 'm', 'all' )">wszystkie miesiące</button>
+			<select name="y"></select> <button onclick="changeRange( 'y', 'all' )">wszystkie lata</button>
+			<br><select name="m"></select> <button onclick="changeRange( 'm', 'all' )">wszystkie miesiące</button>
 			<br><select name="d"></select> <button onclick="changeRange( 'd', 'all' )">wszystkie dni</button>
 			<br><button onclick="changeRange( 'h', 'all' )">wszystkie godziny</button>
 		</div>
@@ -93,6 +94,7 @@
 		<div class="panel composition">
 			<h3 class="cp">Kompozycja</h3>
 			<button  onclick="makeGrid(3,3)">3x3</button>
+			<button  onclick="makeGrid(4,3)">4x3</button>
 
 			<button  onclick="days()">dni</button>
 		</div>

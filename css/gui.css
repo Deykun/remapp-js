@@ -189,10 +189,14 @@ header {
   flex-flow: row wrap;
   justify-content: space-between;
   /* Usuwa podpisy, warunki u┼╝ytkowania z map w siatce */ }
+  #composition.g3-3 .cpbox {
+    flex: 1 1 30%;
+    height: calc(100vh / 3); }
+  #composition.g4-3 .cpbox {
+    flex: 1 1 25%;
+    height: calc(100vh / 3); }
   #composition .cpbox {
     position: relative;
-    flex: 1 1 30%;
-    height: calc(100vh / 3);
     color: #689756;
     background-color: #e5e3df;
     border: 1px dashed rgba(255, 255, 255, 0); }

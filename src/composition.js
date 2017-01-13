@@ -1,7 +1,7 @@
 function makeGrid(col, row) {
 	/* Ukrycie głównej mapy */
 	$('.map').hide();
-	$('#composition').empty().show();
+	$('#composition').empty().show().addClass('g'+col+'-'+row);
 
 	/* Wygenerowanie siatki */
 	for (var i = 1 ; i <= col ; i++) {

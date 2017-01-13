@@ -297,11 +297,19 @@ header {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-between;
+
+	&.g3-3 .cpbox {
+		flex: 1 1 30%;
+		height: calc(100vh / 3);
+	}
+
+	&.g4-3 .cpbox {
+		flex: 1 1 25%;
+		height: calc(100vh / 3);
+	}
+
 	.cpbox {
 		position: relative;
-		flex: 1 1 30%;
-		height: calc(100vh / 3);;
-
 		color: $colorBody;
 		background-color: $colorMap;
 

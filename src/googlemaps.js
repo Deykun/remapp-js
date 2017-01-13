@@ -1,5 +1,5 @@
 /* Generowanie mapy */
-mapbox = [[],[],[],[]];
+mapbox = [[],[],[],[],[]];
 map = 'start';
 function mapLoad(box, col, row) {
 	var center, zoom;
@@ -53,12 +53,18 @@ function changeMap(mapid, datetype, daterange) {
 
 	/* Ustawia nowe markery na mapie */
 	for (var i = 0, newmarker, imax = trk.length ; i < imax ; i+=1) {
-		if (daterange !== 'all' && (datetype === 'm' || datetype === 'd')) {
+		if (daterange !== 'all' && (datetype === 'y' || datetype === 'm' || datetype === 'd')) {
 			/* Ustalenie sąsiadujących miesięcy */
 			var prevrange = daterange-1;
 			var nextrange = daterange+1;
 
 			switch (datetype) {
+				case 'y':
+					trkrange = Number(new Date(trk[i][1][0]).getFullYear());
+					color = strokes.color.year[new Date(trk[i][1][0]).getFullYear()-2010];
+					prevrange = 0;
+					nextrange = 0;
+					break;
 				case 'm':
 					trkrange = Number(new Date(trk[i][1][0]).getMonth());
 					color = strokes.color.month[new Date(trk[i][1][0]).getMonth()];
@@ -227,9 +233,13 @@ function mapAnimation(datetype) {
 	var anTime = Number($('#antime').val());
 	anLast = datetype;
 
-	if (datetype === 'm' || datetype === 'd'){
+	if (datatype === 'y' || datetype === 'm' || datetype === 'd'){
 		var i = 0, imax = 0;
 		switch (datetype) {
+			case 'y':
+				i = 2010;
+				imax = 2018;
+				break;
 			case 'm': imax = 12;
 				break;
 			case 'd': imax = 7;
