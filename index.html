@@ -2,25 +2,19 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>scieski 0.861</title>
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700" rel="stylesheet">
-	<link href="css\flaticon\flaticon.css" rel="stylesheet">
-	<link href="css\gui.css" rel="stylesheet">
+	<title>scieski - rewrite - 0.1</title>
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&amp;subset=latin-ext" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-	<!-- Mapa -->
-	<div class="map">
-		<div id="map"></div>
-		<!-- Legenda mapy -->
+	<!-- Kompozycja map -->
+	<div id="maps">
 		<div class="legend">
-			<section class="range" onclick="changeRange('auto','all')"></section>
+			<section class="range"></section>
 		</div>
 	</div>
 
-	<!-- Kompozycja map -->
-	<div id="composition"></div>
-
-	<!-- Logo -->
 	<header>
 		<h1>scieski</h1>
 		<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
@@ -37,82 +31,62 @@
 		 </svg>
 	</header>
 
-	<!-- Główne menu -->
-	<div class="menu">
-		<!-- Nawigacja -->
+	<aside class="menu">
 		<nav>
-			<button class="tr">trasy</button>
-			<button class="lg">legenda</button>
-			<button class="an">animacja</button>
-			<button class="cp">kompozycja</button>
-			<button class="mp">mapa</button>
+			<button data-title="trasy" data-submenu="tracks">
+				<span class="material-icons">edit_location</span>
+			</button>
+			<button class="active" data-title="filtry" data-submenu="filters">
+				<span class="material-icons">pageview</span>
+			</button>
+			<button class="separator" data-title="ustawienia" data-submenu="settings">
+				<span class="material-icons">settings</span>
+			</button>
+			<button data-title="kompozycja" data-submenu="composition">
+				<span class="material-icons">view_module</span>
+			</button>
+			<button class="separator" data-title="animacja" data-submenu="animation">
+				<span class="material-icons">play_circle_filled</span>
+			</button>
+			<a class="active github" href="https://github.com/Deykun/scieski-js" target="_blank" data-title="GitHub">
+				<img src="img/icons/github.png">
+			</a>
+			<div id="navhover"></div>
 		</nav>
 
-		<!-- Panel powitalny -->
-		<div class="introduction">
-			<h2>Witaj!</h2>
-			<p>Dzięki tej stronie wygenerujesz mapy z wszystkimi swoimi trasami zapisanymi w formacie <strong>.tcx</strong> lub <strong>.gpx</strong>!</p>
-			<p>Kliknij <button class="ex">tutaj</button> jeśli chcesz załadować przykładowe trasy i przetestować działanie tej strony.</p>
-			<button class="in">zamknij powitanie</button>
-		</div>
-
+		<div class="content">
 		<!-- Panel tras -->
-		<div class="panel tracks">
-			<h3 class="tr">Trasy</h3>
-			<input id="add-tracks" type="file" multiple>
-			<label for="add-tracks"><i class="flaticon-folder"></i> Dodaj trasy </label> <span id="status-tracks"></span>
-			<section class="scroll">
-				<ul id="tracks"></ul>
-			</section>
-			<button class="fm">tryb lokalizacji</button>
+			<div class="submenu tracks">
+				<input id="add-tracks" type="file" multiple>
+				<label for="add-tracks"><span class="material-icons">folder_open</span> Dodaj trasy </label> <span id="status-tracks"></span>
+				<section class="scroll">
+					<ul id="tracks"></ul>
+				</section>
+			</div>
+
+			<!-- Panel filtrów -->
+			<div class="submenu filters show">
+				<p>Wkrótce filtry.</p>
+			</div>
+
+			<!-- Panel ustawień -->
+			<div class="submenu settings">
+				<p>Wkrótce ustawienia.</p>
+			</div>
+
+			<!-- Panel ustawień -->
+			<div class="submenu composition">
+				<p>Wkrótce kompozycja.</p>
+			</div>
+
+			<!-- Panel animacji -->
+			<div class="submenu animation">
+				<p>Wkrótce animacja.</p>
+			</div>
 		</div>
-
-		<!-- Panel legendy -->
-		<div class="panel legends">
-			<h3 class="lg">Legenda</h3>
-			<section class="scroll">
-				<ul id="styles"></ul>
-			</section>
-		</div>
-
-		<!-- Panel animacji -->
-		<div class="panel animation">
-			<h3 class="an">Animacja</h3>
-			<button onclick="mapAnimation('m')">mięsiące</button> <button onclick="mapAnimation('d')">dni</button>
-			<h4>Prędkość animacji:</h4>
-			szybko <input type="range" id="antime" min="250" max="7500" step="50" value="1000"> wolno
-			<button onclick="mapAnimationStop()">zatrztymaj animacje</button>
-
-			<h4>Klatki animacji</h4>
-			<select name="y"></select> <button onclick="changeRange( 'y', 'all' )">wszystkie lata</button>
-			<br><select name="m"></select> <button onclick="changeRange( 'm', 'all' )">wszystkie miesiące</button>
-			<br><select name="d"></select> <button onclick="changeRange( 'd', 'all' )">wszystkie dni</button>
-			<br><button onclick="changeRange( 'h', 'all' )">wszystkie godziny</button>
-		</div>
-
-		<!-- Panel Kompozycji -->
-		<div class="panel composition">
-			<h3 class="cp">Kompozycja</h3>
-			<button  onclick="makeGrid(3,3)">3x3</button>
-			<button  onclick="makeGrid(4,3)">4x3</button>
-
-			<button  onclick="days()">dni</button>
-		</div>
-
-		<!-- Stopka -->
-		<footer>
-			<small><a href="https://github.com/Deykun/scieski-js">GitHub</a> | ikony z <a href="http://www.flaticon.com">flaticon</a> (<a href="http://creativecommons.org/licenses/by/3.0/">CC</a>: <a data-file="top" href="http://www.freepik.com">freepik</a>).
-     </small>
-		</footer>
-	</div>
-
-	<script src="src\jquery-3.1.1.min.js"></script>
-	<script src="src\defaultstyles.js"></script>
-	<script src="src\remapp.js"></script>
-	<script src="src\googlemaps.js"></script>
-	<script src="src\composition.js"></script>
-	<script src="src\examples.js"></script>
-
+	</aside>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<script src="js/atrapa.js"></script>
 </body>
 </html>
