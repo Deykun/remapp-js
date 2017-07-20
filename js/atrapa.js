@@ -9,21 +9,17 @@ $(document).ready(function(){
 	$('nav button').on('click', function() {
 		/* Wybranie panelu */
 		var panel = $(this).attr('data-submenu');
-		console.log('Panel:'+panel);
 
 		/* Sprawdzenie czy wybrano dobry panel */
 		if (panel) {
 			if ($('.'+panel).hasClass('show')) {
 				$('.submenu').removeClass('show');
 				$('nav > button.active').removeClass('active');
-				console.log('Panel : '+panel+' miał show');
 			} else {
 				$('.submenu').removeClass('show');
 				$('nav > button.active').removeClass('active');
 				$('.submenu.'+panel).addClass('show');
 				$('nav > button[data-submenu="'+panel+'"]').addClass('active');
-
-				console.log('Panel : '+panel+' nie miał show');
 			}
 		}
 	});

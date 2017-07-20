@@ -6,7 +6,7 @@ var menu = new function() {
         top: 0,
         left: 0
     };
-    this.speed = 300;
+    this.speed = 500;
     this.clicked = 0;
     this.slide = $('.content nav button');
     this.initSlide = function() {
@@ -16,7 +16,7 @@ var menu = new function() {
         }
         this.slide.width(this.activeWidth);
         this.slide.css("left", this.activePosition.left);
-        this.slide.appendTo(this.menu)
+        this.slide.appendTo(this.menu);
     };
     this.slideMeIn = function(e) {
         this.newActiveWidth = e.width();
@@ -31,27 +31,7 @@ var menu = new function() {
             this.slide.stop(true).animate({
                 left: this.activePosition.left,
                 width: this.activeWidth
-            }, this.speed)
-        }
+            }, this.speed) 
+        } 
     }
 };
-$(window).load(function() {
-    menu.initSlide();
-    menu.menu.children("li").hover(function() {
-        menu.slideMeIn($(this))
-    }, function() {
-        menu.slideMeOut()
-    });
-    menu.menu.children("li").children("a").click(function() {
-        menu.clicked = 1
-    });
-    var e = $("#menu");
-    $("body").click(function(t) {
-        if (t.target.id != "mobile-menu") {
-            e.removeClass("open")
-        }
-    })
-});
-$(window).resize(function() {
-    menu.initSlide()
-})

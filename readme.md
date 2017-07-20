@@ -4,6 +4,9 @@
 ### Rewrite
 Przepisanie strony, zmiana wyglądu.
 
+### Wersja 0.2
+- dodawanie tras w formacie .tcx i .gpx bez blokowania przeglądarki
+
 ### Wersja 0.1
 - nowy wygląd nawigacji
 

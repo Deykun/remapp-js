@@ -2,10 +2,10 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>scieski - rewrite - 0.1</title>
+	<title>scieski - rewrite - 0.2</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="css/style.css" rel="stylesheet">
+	<link href="css/stylesheet.min.css" rel="stylesheet">
 </head>
 <body>
 	<!-- Kompozycja map -->
@@ -15,7 +15,7 @@
 		</div>
 	</div>
 
-	<header>
+	<header class="show">
 		<h1>scieski</h1>
 		<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 			 <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
@@ -31,12 +31,12 @@
 		 </svg>
 	</header>
 
-	<aside class="menu">
+	<aside class="menu show">
 		<nav>
-			<button data-title="trasy" data-submenu="tracks">
+			<button class="active" data-title="trasy" data-submenu="tracks">
 				<span class="material-icons">edit_location</span>
 			</button>
-			<button class="active" data-title="filtry" data-submenu="filters">
+			<button data-title="filtry" data-submenu="filters">
 				<span class="material-icons">pageview</span>
 			</button>
 			<button class="separator" data-title="ustawienia" data-submenu="settings">
@@ -56,16 +56,20 @@
 
 		<div class="content">
 		<!-- Panel tras -->
-			<div class="submenu tracks">
-				<input id="add-tracks" type="file" multiple>
-				<label for="add-tracks"><span class="material-icons">folder_open</span> Dodaj trasy </label> <span id="status-tracks"></span>
+			<div class="submenu tracks show">
+                <!-- Upuszczanie plików -->
+                <div class="drop-zone">
+                    <input id="add-tracks" type="file" multiple>
+                    <label for="add-tracks">Dodaj trasy</label>
+                    <span id="status-tracks"></span>
+                </div>
 				<section class="scroll">
 					<ul id="tracks"></ul>
 				</section>
 			</div>
 
 			<!-- Panel filtrów -->
-			<div class="submenu filters show">
+			<div class="submenu filters">
 				<p>Wkrótce filtry.</p>
 			</div>
 
@@ -85,8 +89,8 @@
 			</div>
 		</div>
 	</aside>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script async defer src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-	<script src="js/atrapa.js"></script>
+	<script src="js/scripts.js"></script>
+    <script src="js/atrapa.js"></script>
 </body>
 </html>
