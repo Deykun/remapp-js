@@ -1,11 +1,16 @@
 @charset "UTF-8";
 
-/* sass --watch sass:css --style compressed */
-
 /* Color */
 	$textColor: #fff;
 	$mapColor: #e5e3df;
 	$mainColor: #689756;
+	$activeColor: #000;
+
+/* Vintage Charm - Cafe Frida */
+	$textColor: #E9E7DA;
+	$mainColor: #636B46;
+	$activeColor: #373F27;
+
 	$activeColor: #000;
 
 /* Breakpoint */
@@ -27,10 +32,19 @@
 	line-height: 1.4em;
 	vertical-align: baseline;
 	text-decoration: none;
-	outline: 0;
+	outline: none !important;
 
 	box-sizing: border-box;
 }
+
+//button:focus, button:active {
+//	outline: none !important;
+//}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
 
 body, button {
 	background-color: $mapColor; 
@@ -182,7 +196,7 @@ header {
 			display: block;
 			height: 36px;
 			width: 36px;
-			background: black;
+			background: $activeColor;
 			margin-top: 2px;
 			transform: translateX(-50%);
 			border-radius: $borderRadius;
@@ -249,7 +263,7 @@ header {
                     
                     label {
                         display: inline-block;
-                        background-color: black;
+                        background-color: $activeColor;
                         border-radius: $borderRadius;
                         padding: 2px 10px;
                         font-size: 14px;
@@ -268,12 +282,12 @@ header {
                     
                     #status-tracks {
                         position: absolute;
-                        right: 0px;
-                        bottom: 0px;
+                        right: 0;
+                        bottom: 5px;
                         
                         display: none;
-                        background-color: white;
-                        color: black;
+                        background-color: $textColor;
+                        color: $activeColor;
                         border-radius: $borderRadius;
                         padding: 2px 10px;
                         font-size: 15px;
@@ -294,7 +308,7 @@ header {
 
 /* Animacje */
 @keyframes waiting {
-    0% { color: black; }
+    0% { color: $activeColor; }
     50% { color: $mainColor; }
-    100% { color: black; }
+    100% { color: $activeColor; }
 }

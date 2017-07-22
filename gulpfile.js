@@ -25,7 +25,7 @@ gulp.task('sass', function (){
 //JS
 gulp.task('uglify', function(){
     //gulp.src(['./dev/js/lib/*.js', './dev/js/local.fn.js', './dev/js/*.js' ])
-    gulp.src(['./dev/js/lib/*.js', './dev/js/variables.js', './dev/js/functions.js', './dev/js/frontend.js', './dev/js/interactions.js' ])
+    gulp.src(['./dev/js/lib/*.js', './dev/js/global.js', './dev/js/frontend.js', './dev/js/interactions.js' ])
         .pipe(concat('scripts.js'))
         .pipe(gulp.dest('./js')); 
         /*.pipe(uglify())
@@ -38,7 +38,7 @@ gulp.task('default', function(){
     browserSync.init({
         server: "./"
     });
-    gulp.watch(["./index.html", "./js/*.js"], browserSync.reload);
+    gulp.watch(["./index.html", "./js/*.js", "./css/*.css"], browserSync.reload);
 
     gulp.watch("./dev/sass/*.scss", function(event){
         gulp.run('sass');
