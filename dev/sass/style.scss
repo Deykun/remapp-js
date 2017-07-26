@@ -6,11 +6,15 @@
 	$mainColor: #689756;
 	$activeColor: #000;
 
+	$loadColor: #CDA34F;
+
 /* Vintage Charm - Cafe Frida */
 	$textColor: #E9E7DA;
 	$mainColor: #636B46;
 	$activeColor: #373F27;
 
+	$loadColor: #CDA34F;
+	$loadColor: #a07d38;
 	$activeColor: #000;
 
 /* Breakpoint */
@@ -133,6 +137,44 @@ header {
 	display: flex;
 	flex-flow: row;
 	flex-wrap: nowrap;
+	
+	#status-progressbar {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: 5px;
+		width: 0;
+		z-index: 20;
+
+		display: none;
+		background-color: $textColor;
+		background-image: linear-gradient(to left,$textColor 0,$textColor 2%,$loadColor 25%,$loadColor 75%,$textColor 98%,$textColor 100%);
+		background-size: 150px 100%;
+		border-top-left-radius: $borderRadius; 
+			
+		transition: width $actionTime;
+		animation: progressbar ($actionTime*4) infinite linear; 
+		
+		&::before {
+			position: absolute;
+			top: -30px;
+			right: 0;
+			
+			background-color: $textColor;
+			color: $activeColor;
+			content: attr(data-procent);
+			display: block;
+			
+			padding: 2px 10px;
+			border-radius: $borderRadius;
+			border-bottom-right-radius: 0; 
+
+			text-align: center;
+			font-size: 14px;
+			
+			animation: waiting ($actionTime*3) infinite;  
+		}
+	}
 
 	nav {
 		flex-basis: 60px;
@@ -206,7 +248,7 @@ header {
 	.content {
 		flex-basis: 100%;
 		position: relative;
-
+		
 		.submenu {
 			position: absolute;
 			top: $topMarginSubmenu;
@@ -235,7 +277,7 @@ header {
 					overflow: hidden;
 				}
 			}
-
+			
 			/*  Panel tras  */
 			&.tracks {
 				display: flex;
@@ -291,7 +333,7 @@ header {
                         border-radius: $borderRadius;
                         padding: 2px 10px;
                         font-size: 15px;
-                        animation: waiting ($actionTime*3) infinite; 
+                        animation: waiting ($actionTime*3) infinite;  
                     }
                     
                     &:hover {
@@ -309,6 +351,12 @@ header {
 /* Animacje */
 @keyframes waiting {
     0% { color: $activeColor; }
-    50% { color: $mainColor; }
+    50% { color: $loadColor; }
     100% { color: $activeColor; }
 }
+
+@keyframes progressbar {
+	0% { background-position: 0 0; }
+    100% { background-position: 150px 0; }
+}
+

@@ -19,7 +19,7 @@ scieski = {
 			perfomence: true	
 		},
         upload: {
-            update: 50,
+            update: 100,
 			simultaneously: 250
         }
     },

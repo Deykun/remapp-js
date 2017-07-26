@@ -30,7 +30,7 @@ scieski = {
 			perfomence: true	
 		},
         upload: {
-            update: 50,
+            update: 100,
 			simultaneously: 250
         }
     },
@@ -123,7 +123,11 @@ $("#add-tracks").on('change', function (e) {
 	$(this).prop('disabled', true );
 	
 	/* Upload progress */
-    $('#status-tracks').empty().show().append('ładowanie...');
+	var $statusTracks = $('#status-tracks');
+	var $statusProgressbar = $('#status-progressbar');
+    $statusTracks.empty().show().append('ładowanie...');
+	$statusProgressbar.show();
+	
 	
     var statusUpdateRate = scieski.default.upload.update,
 		processedAtOnce = scieski.default.upload.simultaneously,
@@ -160,8 +164,12 @@ $("#add-tracks").on('change', function (e) {
 				} else {
 					console.info('Files added.');
 				}
-				$('#status-tracks').empty().hide();
+				
+				$statusProgressbar.css('width', 0).hide();
+				$statusProgressbar.attr('data-procent', '');
+				$statusTracks.empty().hide();
             	$tracks.prepend(newHTML); 
+				
 				$("#add-tracks").prop('disabled', false );
 			} else {
 				disabledCount--;
@@ -185,8 +193,9 @@ $("#add-tracks").on('change', function (e) {
                 reader.onloadend = function() {
                     var xmldata = $(reader.result);
 					
-					var distance = 0;
-					var testdistance = 0;
+					var distance = 0,
+						testdistance = 0,
+						type = '';
                     
                 	if (format === 'gpx') {
                         $(xmldata).find('trkpt').each( function () {						
@@ -198,6 +207,7 @@ $("#add-tracks").on('change', function (e) {
                         });
 						
 						distance = calculateDistance(points);
+						type = $(xmldata).find('type').text().toLowerCase();
 						
                     } else if (format === 'tcx') {
                         $(xmldata).find('Trackpoint').each( function () {
@@ -209,11 +219,11 @@ $("#add-tracks").on('change', function (e) {
                         });
 						
 						$(xmldata).find('Lap > DistanceMeters').each( function () {
-							addToTotalDistance = (Number( $(this).text() ) / 1000); //in km
-							distance += addToTotalDistance;
+							var tcxFileDistance = (Number( $(this).text() ) / 1000); //in km
+							distance += tcxFileDistance;
                         });
 						
-						testdistance = calculateDistance(points);
+						type = ($(xmldata).find('Activity').attr('Sport')).toLowerCase();
                     }
 
                 
@@ -223,7 +233,7 @@ $("#add-tracks").on('change', function (e) {
 					scieski.tracks[id] = { 
 						id: id,
 						name: title,
-						type: '',
+						type: type,
 						points: points,
 						times: times,
 						date: {
@@ -234,13 +244,14 @@ $("#add-tracks").on('change', function (e) {
 						hidden: false
 					};
 
-					newHTML += '<li class="track" id="track'+id+'" data-id="'+id+'" data-distance="'+distance+'"><h3>'+title+'</h3><p><strong>'+showDistance(distance)+'</strong></p></li>';                     
+					newHTML += '<li class="track" id="track'+id+'" data-id="'+id+'" data-distance="'+distance+'"><h3>'+title+'</h3><p><strong>'+showDistance(distance)+' - '+type+'</strong></p></li>';                     
 				}
 			}
             
 			if (index % statusUpdateRate === 0) {
 				var progress = parseFloat(((filesProcessed)/filesNumber)*100).toFixed(1);
-				$('#status-tracks').empty().append(progress+'%');
+				$statusProgressbar.css('width', progress+'%');
+				$statusProgressbar.attr('data-procent', progress+'%');
 				$tracks.prepend(newHTML); 
 				newHTML = '';
 			}

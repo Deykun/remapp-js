@@ -4,6 +4,10 @@
 ### Rewrite
 Przepisanie strony, zmiana wyglądu.
 
+### Wersja 0.3
+- pasek postępu
+- pobiernie dyscypliny
+
 ### Wersja 0.25
 - analizowanie wielu tras w tym samym czasie
 - obliczanie długości trasy
