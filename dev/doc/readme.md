@@ -2,9 +2,18 @@
 
 scieski {
     default {
+		color {
+			legend {
+				hours [],
+				days [],
+				months [],
+				years []						// TD years.length + modulo % + startpoint int
+			}
+		},
 		dev {
 			perfomence
-		}
+		},
+		language,
         upload {
             update,								// Aktualizacja % postępu
 			simultaneously						// Ile tras jest przetwarzanych jednocześnie
@@ -25,13 +34,26 @@ scieski {
             hidden
         }
     ],
+	
 	method {
-		show: {
-			distance
+		show {
+			distance(distance)
 		}
-		upload {
-			createPoint,
-			calculateDistance
+		tracks {
+			basicStatistics(),
+			sort(sortOrder),
+			upload {
+				createPoint(latitude, longitude),
+				calculateDistance(points)
+			}
+		}
+	}
+	
+	lang {
+		legend {
+			days { en [], pl []	},
+			months { en [], pl [] }
+			}
 		}
 	}
 }

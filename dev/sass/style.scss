@@ -1,21 +1,15 @@
 @charset "UTF-8";
 
-/* Color */
-	$textColor: #fff;
+/* Colors */
+	$textColor: #333;
+
+	$mainColor: #fff;
 	$mapColor: #e5e3df;
-	$mainColor: #689756;
-	$activeColor: #000;
+	$secondaryColor: $mapColor;
 
-	$loadColor: #CDA34F;
+	$activeColor: #d5dc97;
+	$loadColor: #97cadc; 
 
-/* Vintage Charm - Cafe Frida */
-	$textColor: #E9E7DA;
-	$mainColor: #636B46;
-	$activeColor: #373F27;
-
-	$loadColor: #CDA34F;
-	$loadColor: #a07d38;
-	$activeColor: #000;
 
 /* Breakpoint */
     $sm: "only screen and (min-width : 576px)";
@@ -27,6 +21,9 @@
 	$actionTime: .5s;
     $borderRadius: 5px;
 	$topMarginSubmenu: 60px;
+
+	$softBounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	$softBounce: cubic-bezier(0.68, -0.55, 0.265, 1.30);
 
 /* Reset CSS */
 * {
@@ -41,12 +38,13 @@
 	box-sizing: border-box;
 }
 
-//button:focus, button:active {
-//	outline: none !important;
-//}
 
-button::-moz-focus-inner {
-  border: 0;
+h2, h3, h4, h5, h6 {
+	font-weight: 400;
+}
+
+p {
+	font-weight: 200;
 }
 
 
@@ -55,6 +53,7 @@ body, button {
 	font-family: 'Josefin Sans', sans-serif;
 	color: $textColor;
 }
+
 header {
 	transition: $actionTime;
 
@@ -62,24 +61,31 @@ header {
 	top: 10px;
 	right: 10px;
 	z-index: 10;
+	
+	min-width: 120px;
 
 	text-align: right;
+	
+	cursor: pointer;
 
 	h1 {
 		transition: $actionTime;
 		display: inline-block;
 		font-size: 24px;
-		color: $mainColor;
+		color: $textColor;
 		font-weight: 400;
 	}
 
 	svg {
 		transition: $actionTime;
-		max-width: 60px;
+		max-width: 30px;
+		@media #{$md} {
+			max-width: 60px;
+		}
 
 		#logo {
 			transition: $actionTime;
-			fill: $mainColor;
+			fill: $textColor;
 		}
 	}
 
@@ -98,6 +104,82 @@ header {
 		}
 	}
 }
+
+#maps {
+	.map {
+		height: 100vh;
+		width: 100%;
+		
+		.legend {
+			position: absolute;
+			top: 50%;
+			left: 15px;
+			transform: translateY(-50%);
+			
+			.range {
+				cursor: help;
+				margin-bottom: 15px;
+				 
+				div {
+					text-align: center;
+					width: 18px;
+					height: 18px;
+					transition: all $actionTime;
+					color: transparent;					
+					position: relative;
+					border-radius: $borderRadius;
+					margin-bottom: 10px;
+					
+					&::after {
+						position: absolute;
+						top: 50%;
+						transform: translateY(-50%);
+						left: calc(100% - 7px);
+						content: attr(data-label);
+						display: inline-block;
+						padding: 2px 10px;
+						
+						background-color: $textColor;
+						border-radius: $borderRadius;
+						
+						opacity: 0;
+						
+						color: $mainColor;
+						text-align: center;
+						font-size: 14px;
+						white-space: nowrap;
+
+						transition: all ($actionTime / 2);
+					}
+					
+					&:first-child {
+						&::after {
+							top: calc(50% - 10px);
+						}
+					}
+					
+					&:last-child {
+						&::after {
+							top: calc(50% + 10px);
+						}
+					}
+					
+					&.active, &:hover {
+//						margin-left: 10px;
+					}
+					
+					&.active, &:hover, &:first-child, &:last-child {						
+						&::after {
+							left: calc(100% + 7px);
+							opacity: 1;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 .menu {
 	position: fixed;
 	top: 0;
@@ -117,11 +199,29 @@ header {
 	padding: 0px;
 
 	background-color: $mainColor;
-	transition: margin $actionTime;
+	transition: margin $actionTime*2 $softBounce;
+	
+	&::after {
+		position: absolute;		
+		font-family: 'Material Icons';
+		content: '\E566';
+		color: $activeColor;
+		color: $textColor;
+		font-size: 26px;
+		line-height: 100vh;
+		transform: scale(-1, 1);
+		text-align: right;
+		right: -100px;
+		width: 100px;
+		height: 100vh;
+		background-color: $mainColor;
+		z-index: 10;
+	}
 
 	&.show {
 		margin-right: 0;
-
+		box-shadow: 0 0 15px rgba(0,0,0,0.07);
+		
 		nav {
 			button, a {
 				&:hover, &.active {
@@ -148,7 +248,7 @@ header {
 
 		display: none;
 		background-color: $textColor;
-		background-image: linear-gradient(to left,$textColor 0,$textColor 2%,$loadColor 25%,$loadColor 75%,$textColor 98%,$textColor 100%);
+		background-image: linear-gradient(to left,$activeColor 0,$activeColor 2%,$loadColor 25%,$loadColor 75%,$activeColor 98%,$activeColor 100%);
 		background-size: 150px 100%;
 		border-top-left-radius: $borderRadius; 
 			
@@ -160,17 +260,18 @@ header {
 			top: -30px;
 			right: 0;
 			
-			background-color: $textColor;
-			color: $activeColor;
+			background-color: $activeColor;
+			color: $textColor;
 			content: attr(data-procent);
 			display: block;
 			
-			padding: 2px 10px;
+			padding: 2px 5px 2px 10px;
 			border-radius: $borderRadius;
 			border-bottom-right-radius: 0; 
 
 			text-align: center;
-			font-size: 14px;
+			font-size: 16px;
+			font-weight: 700;
 			
 			animation: waiting ($actionTime*3) infinite;  
 		}
@@ -192,7 +293,11 @@ header {
 			margin: 0;
 			padding-bottom: 10px;
 			&.separator {
-				padding-bottom: 30px;
+				padding-bottom: 10px;
+				
+				@media (min-height: 500px) {
+					padding-bottom: 30px;
+				}
 			}
 
 			transition: color $actionTime;
@@ -226,7 +331,11 @@ header {
 			}
 
 			&.github {
-				padding-top: 10px;
+				display: none;
+				@media #{$md} {
+					padding-top: 10px;
+					display: block;
+				}
 			}
 		}
 
@@ -253,28 +362,27 @@ header {
 			position: absolute;
 			top: $topMarginSubmenu;
 			right: -100%;
+			opacity: 0;
 			&.show {
 				right: 0;
+				opacity: 1;
+				box-shadow: -60px 0px 50px -100px #000000, 60px 0px 50px -100px #000000;
 			}
 			height: calc(100% - #{$topMarginSubmenu});
 			
 			z-index: 7;
 			width: 100%;
-			padding: 10px;
-
 			background-color: $mainColor;
 
-			transition: right $actionTime;
-
-			h3 {
-				cursor: pointer;
-			}
+			transition: all $actionTime;
 			
 			.scroll {
 				overflow-y: scroll;
+				padding-left: 15px;				
 				
 				& > * {
 					overflow: hidden;
+					list-style: none;
 				}
 			}
 			
@@ -324,12 +432,12 @@ header {
                     
                     #status-tracks {
                         position: absolute;
-                        right: 0;
+                        right: 5px;
                         bottom: 5px;
                         
                         display: none;
-                        background-color: $textColor;
-                        color: $activeColor;
+                        background-color: $activeColor;
+                        color: $textColor;
                         border-radius: $borderRadius;
                         padding: 2px 10px;
                         font-size: 15px;
@@ -342,6 +450,14 @@ header {
                         }
                     }
                 }
+				
+				.track {
+					padding: 5px 15px;
+					
+					&:nth-child(even) {
+						background-color: $secondaryColor;
+					}
+				}
 			}
 		}
 	}
@@ -350,9 +466,9 @@ header {
 
 /* Animacje */
 @keyframes waiting {
-    0% { color: $activeColor; }
-    50% { color: $loadColor; }
-    100% { color: $activeColor; }
+    0% { background-color: $activeColor; }
+    50% { background-color: $loadColor; }
+    100% { background-color: $activeColor; }
 }
 
 @keyframes progressbar {
@@ -360,3 +476,18 @@ header {
     100% { background-position: 150px 0; }
 }
 
+
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+::-moz-selection {
+    color: $textColor;
+    background: $loadColor;
+}
+
+::selection {
+    color: $textColor;
+    background: $loadColor;
+}

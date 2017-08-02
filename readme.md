@@ -4,6 +4,10 @@
 ### Rewrite
 Przepisanie strony, zmiana wyglądu.
 
+### Wersja 0.35
+- wygląd legendy
+- sortowanie odcinków na liście wg odległości i czasu rozpoczęcia
+
 ### Wersja 0.3
 - pasek postępu
 - pobiernie dyscypliny

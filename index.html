@@ -2,20 +2,35 @@
 <html lang="pl">
 <head>
 	<meta charset="utf-8">
-	<title>scieski - rewrite - 0.3</title>
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,700&amp;subset=latin-ext" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>scieski - rewrite - 0.35</title>
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,500,600,700&amp;subset=latin-ext" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="css/stylesheet.min.css" rel="stylesheet">
+	
 </head>
 <body>
 	<!-- Kompozycja map -->
 	<div id="maps">
-		<div class="legend">
-			<section class="range"></section>
+		<div class="map">
+			<div class="legend">
+				<section class="range">
+					
+					<div style="background-color:#7c3592;" data-label="2017"></div>
+					<div style="background-color:#4186f0;" data-label="2016"></div>
+					<div style="background-color:#db4436;" data-label="2015"></div>
+					<div style="background-color:#f8971b;" data-label="2014"></div>
+					<div style="background-color:#9ec83e;" data-label="2013"></div>
+					<div style="background-color:#795046;" data-label="2012"></div>
+					<div style="background-color:#0ba9cc;" data-label="2011"></div>
+				</section>
+			</div>
 		</div>
 	</div>
 
-	<header class="show">
+	<header class="">
 		<h1>scieski</h1>
 		<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 			 <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
@@ -31,15 +46,20 @@
 		 </svg>
 	</header>
 
-	<aside class="menu show">
+	<aside class="menu">
 		<span id="status-progressbar"></span>
 		
 		<nav>
 			<button class="active" data-title="trasy" data-submenu="tracks">
 				<span class="material-icons">edit_location</span>
 			</button>
+<!--
 			<button data-title="filtry" data-submenu="filters">
 				<span class="material-icons">pageview</span>
+			</button>
+-->
+			<button data-title="statystyki" data-submenu="stats">
+				<span class="material-icons">insert_chart</span>
 			</button>
 			<button class="separator" data-title="ustawienia" data-submenu="settings">
 				<span class="material-icons">settings</span>
@@ -74,6 +94,14 @@
 			<div class="submenu filters">
 				<p>Wkrótce filtry.</p>
 			</div>
+			
+			<!-- Panel statystyk -->
+			<div class="submenu stats">
+				<div id="basicStatistics">
+					Wkrótce statystyki.
+                </div>
+			</div>
+			
 
 			<!-- Panel ustawień -->
 			<div class="submenu settings">

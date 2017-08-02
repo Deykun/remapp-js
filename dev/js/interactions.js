@@ -6,6 +6,7 @@ $("#add-tracks").on('change', function (e) {
 	var $statusProgressbar = $('#status-progressbar');
     $statusTracks.empty().show().append('ładowanie...');
 	$statusProgressbar.show();
+	$statusProgressbar.attr('data-procent', '0%');
 	
 	
     var statusUpdateRate = scieski.default.upload.update,
@@ -17,8 +18,8 @@ $("#add-tracks").on('change', function (e) {
 		filesProcessed = 0;
 	
 	/* Methods */	
-	var createPoint = scieski.method.upload.createPoint,
-		calculateDistance = scieski.method.upload.calculateDistance,
+	var createPoint = scieski.method.tracks.upload.createPoint,
+		calculateDistance = scieski.method.tracks.upload.calculateDistance,
 		showDistance = scieski.method.show.distance;
 	
 	console.info('Adding '+ filesNumber +' files...');
@@ -48,6 +49,8 @@ $("#add-tracks").on('change', function (e) {
 				$statusProgressbar.attr('data-procent', '');
 				$statusTracks.empty().hide();
             	$tracks.prepend(newHTML); 
+				
+				scieski.method.tracks.basicStatistics();
 				
 				$("#add-tracks").prop('disabled', false );
 			} else {
@@ -108,6 +111,7 @@ $("#add-tracks").on('change', function (e) {
                 
 					/* Adding track */
 					var id = index+baseID;
+					var startTimeInSeconds = Math.round(new Date(times[0]) / 1000);
 
 					scieski.tracks[id] = { 
 						id: id,
@@ -123,7 +127,7 @@ $("#add-tracks").on('change', function (e) {
 						hidden: false
 					};
 
-					newHTML += '<li class="track" id="track'+id+'" data-id="'+id+'" data-distance="'+distance+'"><h3>'+title+'</h3><p><strong>'+showDistance(distance)+' - '+type+'</strong></p></li>';                     
+					newHTML += '<li class="track" id="track'+id+'" data-id="'+id+'" data-distance="'+distance+'" data-start-time="'+startTimeInSeconds+'"><h3>'+title+'</h3><p><strong>'+showDistance(distance)+' - '+type+'</strong></p></li>';                     
 				}
 			}
             

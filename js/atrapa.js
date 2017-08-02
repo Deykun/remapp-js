@@ -32,14 +32,14 @@ $(document).ready(function(){
 	$('nav > button').on('mouseover', function(e) {
 		$('#navhover').stop(true).animate({
 				top: $(this).position().top,
-		}, 150);
+		}, 200);
 	});
 
 	$('nav > button').on('mouseout', function(e) {
 		if ($('nav > button.active').length > 0) {
 			$('#navhover').stop(true).animate({
 					top: $('nav > button.active').first().position().top,
-			}, 150);
+			}, 400);
 		}
 	});
 
