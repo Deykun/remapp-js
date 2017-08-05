@@ -277,7 +277,7 @@ header {
 		}
 	}
 
-	nav {
+	& > nav {
 		flex-basis: 60px;
 		align-self: center;
 		text-align: center;
@@ -386,70 +386,222 @@ header {
 				}
 			}
 			
+			.subnav {
+				display: flex;
+				flex-flow: row;
+				
+				height: 50px;
+				
+				& > span {
+					cursor: pointer;
+					
+					display: inline-block; 
+					padding: 0 10px;
+					position: relative;
+					
+					.material-icons {
+						line-height: 50px;
+						height: 50px;
+						width: 36px;
+						text-align: center;
+						
+						&::after {
+							content: '';
+							display: block;
+							width: 0;
+							height: 0;
+							background-color: $activeColor;
+							border-radius: $borderRadius;
+
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+							z-index: -1;
+
+							transition: all ($actionTime/2);
+						}
+					}
+					
+					&::before {
+						position: absolute;
+						content: attr(data-title);
+						z-index: 20;
+
+						display: inline-block;
+						opacity: 0;
+						bottom: calc(100% + #{$topMarginSubmenu*2});
+						@media #{$sm} {
+							bottom: calc(100% + #{$topMarginSubmenu});
+						}
+						left: 50%;
+						transform: translateX(-50%);
+
+
+						padding: 2px 10px;
+						background-color: $activeColor;
+						border-radius: $borderRadius;
+
+						text-align: center;
+						font-size: 14px;
+						white-space: nowrap;
+
+						transition: all ($actionTime / 2);
+					}
+					
+					ul {
+						display: block;
+						position: absolute;
+//						top: -#{$topMarginSubmenu*4};
+//						@media #{$sm} {
+//							top: -#{$topMarginSubmenu*3};
+//						}
+						top: 0;
+						left: 50%;
+						transform: translateX(-50%);
+						background: $mainColor;
+						
+						box-shadow: 0 0 15px rgba(0,0,0,0.07);
+						opacity: 0;
+						z-index: 5;
+						
+						list-style: none;
+						text-align: center; 
+						border-radius: 2px;
+						
+						
+						
+						li {
+							font-size: 13px;
+							padding: 2px 10px;
+							
+							transition: all $actionTime;
+							
+							&.separator {
+								border-top: 1px solid $secondaryColor;
+								
+								&:hover {
+									border-top: 1px solid $textColor;
+								}
+							}
+							
+							&.other {
+								background-color: $textColor;
+								color: $mainColor;
+								
+								&:hover {
+									color: $textColor;
+								}
+							}
+							
+							&:hover {
+								background-color: $activeColor;
+							}
+						}
+					}
+					
+					&:hover {
+						&::before {
+							opacity: 1;
+							bottom: calc(100% + 5px);
+						}
+						
+						.material-icons:hover::after {
+							width: 36px;
+							height: 36px;
+						}
+						
+						.material-icons:hover + ul,
+						& ul:hover {
+							opacity: 1;
+							top: 100%; 
+							transition: all ($actionTime/2);
+						}
+					}
+				}
+			}
+			
 			/*  Panel tras  */
 			&.tracks {
 				display: flex;
 				flex-flow: column;
 				justify-content: space-between;				
                 
-                .drop-zone {
-                    position: relative;
-                    flex-basis: 50px;
+				
+				#trackNav {
+					flex-basis: 80px;
 					flex-shrink: 0;
-                    text-align: center;
-                    
-                    #add-tracks {
-                        position: absolute;
-                        top: 0;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        width: 100%;
-                        opacity: 0.001;
-                        color: transparent;
-                        border-color: transparent;
-                        background-color: transparent;
-                    } 
-                    
-                    label {
-                        display: inline-block;
-                        background-color: $activeColor;
-                        border-radius: $borderRadius;
-                        padding: 2px 10px;
-                        font-size: 14px;
-                        margin-top: 14px;
-                        &::after {
-                            font-family: 'Material Icons';
-                            content: '\E567';
-                            display: inline-block;
-                            position: absolute;
-                            margin-left: 15px;
-                            font-size: 36px;
-                            
-                            transition: all $actionTime;
-                        }
-                    }
-                    
-                    #status-tracks {
-                        position: absolute;
-                        right: 5px;
-                        bottom: 5px;
-                        
-                        display: none;
-                        background-color: $activeColor;
-                        color: $textColor;
-                        border-radius: $borderRadius;
-                        padding: 2px 10px;
-                        font-size: 15px;
-                        animation: waiting ($actionTime*3) infinite;  
-                    }
-                    
-                    &:hover {
-                        label::after { 
-                            font-size: 44px;
-                        }
-                    }
-                }
+					
+					@media #{$sm} {
+						flex-basis: 50px;
+						
+						display: flex;
+						justify-content: space-between;
+						flex-direction: row-reverse;
+					}
+					
+				    .drop-zone {
+						flex-basis: 100%;
+						@media #{$md} {
+							flex-basis: 75%;
+						}
+						position: relative;
+						text-align: center;
+						height: 50px;
+
+						#add-tracks {
+							position: absolute;
+							top: 0;
+							bottom: 0;
+							left: 0;
+							right: 0;
+							width: 100%;
+							opacity: 0.001;
+							color: transparent;
+							border-color: transparent;
+							background-color: transparent;
+						} 
+
+						label {
+							display: inline-block;
+							background-color: $activeColor;
+							border-radius: $borderRadius;
+							padding: 2px 10px;
+							font-size: 14px;
+							margin-top: 14px;
+							&::after {
+								font-family: 'Material Icons';
+								content: '\E567';
+								display: inline-block;
+								position: absolute;
+								margin-left: 15px;
+								font-size: 36px;
+
+								transition: all $actionTime;
+							}
+						}
+
+						#status-tracks {
+							position: absolute;
+							right: 5px;
+							bottom: 5px;
+
+							display: none;
+							background-color: $activeColor;
+							color: $textColor;
+							border-radius: $borderRadius;
+							padding: 2px 10px;
+							font-size: 15px;
+							animation: waiting ($actionTime*3) infinite;  
+						}
+
+						&:hover {
+							label::after { 
+								font-size: 44px;
+							}
+						}
+					}	
+				}
 				
 				.track {
 					padding: 5px 15px;

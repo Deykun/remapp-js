@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<title>scieski - rewrite - 0.35</title>
+	<title>scieski - rewrite - 0.4</title>
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,500,600,700&amp;subset=latin-ext" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="css/stylesheet.min.css" rel="stylesheet">
@@ -17,7 +17,6 @@
 		<div class="map">
 			<div class="legend">
 				<section class="range">
-					
 					<div style="background-color:#7c3592;" data-label="2017"></div>
 					<div style="background-color:#4186f0;" data-label="2016"></div>
 					<div style="background-color:#db4436;" data-label="2015"></div>
@@ -30,7 +29,7 @@
 		</div>
 	</div>
 
-	<header class="">
+	<header class="show">
 		<h1>scieski</h1>
 		<svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
 			 <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
@@ -46,7 +45,7 @@
 		 </svg>
 	</header>
 
-	<aside class="menu">
+	<aside class="menu show">
 		<span id="status-progressbar"></span>
 		
 		<nav>
@@ -80,11 +79,26 @@
 		<!-- Panel tras -->			
 			<div class="submenu tracks show">
                 <!-- Upuszczanie plików -->
-                <div class="drop-zone">
-                    <input id="add-tracks" type="file" multiple>
-                    <label for="add-tracks">Dodaj trasy</label>
-                    <span id="status-tracks"></span>
-                </div>
+				<div id="trackNav" >
+					<div class="drop-zone">
+						<input id="add-tracks" type="file" multiple>
+						<label for="add-tracks">Dodaj trasy</label>
+						<span id="status-tracks"></span>
+					</div>
+					<nav class="subnav">
+						<span data-title="sortowanie">
+							<span class="material-icons">sort</span>
+							<ul>
+								<li data-action="sort" data-a-sortorder="date">data</li>
+								<li data-action="sort" data-a-sortorder="distance">dystans</li>
+								<li data-action="sort" data-a-sortorder="reverse" class="separator other">odwróć</li> 
+							</ul>
+						</span>
+						<span data-title="filtrowanie">
+							<i class="material-icons">search</i>
+						</span>
+					</nav>
+				</div>
 				<section class="scroll">
 					<ul id="tracks"></ul>
 				</section>

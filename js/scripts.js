@@ -37,7 +37,8 @@ scieski = {
 			}	
 		},
 		dev: {
-			perfomence: true	
+			perfomence: true,
+			actions: true
 		},
 		language: 'pl',
         upload: {
@@ -71,6 +72,10 @@ scieski.method = {
 			$('#basicStatistics').empty().append('Całkowity dystans: <strong>'+scieski.method.show.distance(totalDistance)+'</strong>');		
 		}, 
 		sort: function(sortOrder) {
+			if (scieski.default.dev.actions) {
+				console.log('scieski.method.track.sort(sortOrder='+sortOrder+')');
+			}
+			
 			var $tracks = $('#tracks');
 			var trackToSort = $.makeArray($tracks.children('.track'));
 			
@@ -80,8 +85,8 @@ scieski.method = {
 						var trackA = Number( $(a).attr('data-distance') );
 						var trackB = Number( $(b).attr('data-distance') );
 
-						if (trackA < trackB) return -1;
-						if (trackA > trackB) return 1;
+						if (trackA > trackB) return -1;
+						if (trackA < trackB) return 1;
 
 					return 0;
 					});
@@ -97,11 +102,20 @@ scieski.method = {
 						var trackA = Number( $(a).attr('data-start-time') );
 						var trackB = Number( $(b).attr('data-start-time') );
 
-						if (trackA < trackB) return -1;
-						if (trackA > trackB) return 1;
+						if (trackA > trackB) return -1;
+						if (trackA < trackB) return 1;
 
 					return 0;
 					});
+					
+					$tracks.empty();
+					$.each(trackToSort, function() {
+						$tracks.append(this);
+					});
+					break;
+				}
+				case 'reverse': {
+					trackToSort.reverse();
 					
 					$tracks.empty();
 					$.each(trackToSort, function() {
@@ -200,7 +214,7 @@ var menu = new function() {
     }
 };
 
-$("#add-tracks").on('change', function (e) {
+$('#add-tracks').on('change', function(e) {
 	$(this).prop('disabled', true );
 	
 	/* Upload progress */
@@ -351,4 +365,22 @@ $("#add-tracks").on('change', function (e) {
 	for (var i = processedAtOnce-1 ; i >= 0 ; i--) {
 		readFile(i);	
 	}
-});     
+});
+
+$('[data-action]').on('click', function(e) {
+	$this = $(this);
+	
+	var action = $this.attr('data-action');
+	
+	switch(action) {
+		case 'sort': {
+			var sortOrder = $this.attr('data-a-sortorder');
+			scieski.method.tracks.sort(sortOrder);
+			break;
+		}	
+		default: {
+			console.warn('Nienznana akcja.');
+			return;
+		}
+	}
+})
