@@ -1,10 +1,21 @@
 # scieski - rewrite
+
+## http://deykun.boo.pl/lab/scieski/rewrite/ - wersja 0.5 rewrite
+
 ## http://deykun.boo.pl/lab/scieski/ - wersja 0.861
 
 ### Rewrite
 Przepisanie strony, zmiana wyglądu.
 
-### Wersja 0.4
+### Wersja 0.5
+- generowanie mapy z wszystkimi trasami
+- możliwość wygenerowania heatmap
+- podmenu trybu debbugowania
+
+![](http://deykun.boo.pl/lab/ilustracje/scieski/rewrite/0.5/progressbar.gif)
+![](http://deykun.boo.pl/lab/ilustracje/scieski/rewrite/0.5/heatmap.gif)
+
+#### Wersja 0.4
 - podmenu
 - odwrócenie sortowania
 
@@ -25,5 +36,3 @@ Przepisanie strony, zmiana wyglądu.
 
 #### Wersja 0.1
 - nowy wygląd nawigacji
-
-![](http://deykun.boo.pl/lab/ilustracje/scieski/rewrite/0.1/rewrite.gif)

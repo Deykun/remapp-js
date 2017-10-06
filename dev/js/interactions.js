@@ -81,11 +81,12 @@ $('#add-tracks').on('change', function(e) {
                     
                 	if (format === 'gpx') {
                         $(xmldata).find('trkpt').each( function () {						
-							var formatPoint = createPoint( $(this).attr('lat'),  $(this).attr('lon')	);
-							var formatTime = $(this).find('time').text().slice(0,-1);
+							var formatPoint = createPoint($(this).attr('lat'), //latitude
+                                                          $(this).attr('lon'), //longitude 
+                                                          $(this).find('ele').text(), //altitude
+                                                          $(this).find('time').text() ); //time
 
                             points.push( formatPoint );
-                            times.push( formatTime );
                         });
 						
 						distance = calculateDistance(points);
@@ -93,11 +94,12 @@ $('#add-tracks').on('change', function(e) {
 						
                     } else if (format === 'tcx') {
                         $(xmldata).find('Trackpoint').each( function () {
-							var formatPoint = createPoint( $(this).find('LatitudeDegrees').text(), $(this).find('LongitudeDegrees').text() );
-							var formatTime = $(this).find('Time').text().slice(0,-1);
-
+							var formatPoint = createPoint($(this).find('LatitudeDegrees').text(), //latitude
+                                                          $(this).find('LongitudeDegrees').text(), //longitude
+                                                          $(this).find('AltitudeMeters').text(), //altitude
+                                                          $(this).find('Time').text() ); //time
+                    
                             points.push( formatPoint );
-                            times.push( formatTime );
                         });
 						
 						$(xmldata).find('Lap > DistanceMeters').each( function () {
@@ -111,16 +113,20 @@ $('#add-tracks').on('change', function(e) {
                 
 					/* Adding track */
 					var id = index+baseID;
-					var startTimeInSeconds = Math.round(new Date(times[0]) / 1000);
-
+					var startTimeInSeconds = Math.round(new Date( points[0].time ) / 1000);
+                    
+                    var midPoint = Math.floor(points.length / 2);
+                    var endPoint = points.length - 1;
+                    
 					scieski.tracks[id] = { 
-						id: id,
+						id: id, 
 						name: title,
 						type: type,
-						points: points,
-						times: times,
+						points: points, 
 						date: {
-							start: times[0]
+							start: points[0].time,
+                            middle: points[ midPoint ].time, 
+                            end: points[ endPoint ].time 
 						},
 						distance: distance, 
 						duration: 0,
@@ -146,7 +152,7 @@ $('#add-tracks').on('change', function(e) {
 		reader.readAsText(file);
 	}
 
-	for (var i = processedAtOnce-1 ; i >= 0 ; i--) {
+	for (var i = processedAtOnce-1 ; i >= 0 ; i--) { 
 		readFile(i);	
 	}
 });
@@ -156,14 +162,53 @@ $('[data-action]').on('click', function(e) {
 	
 	var action = $this.attr('data-action');
 	
-	switch(action) {
+	switch(action) {   
+		case 'dev': {
+			var type = $this.attr('data-a-type');
+			scieski.method.dev(type);
+			break;
+		}   
+		case 'map': {
+			scieski.method.gmaps.addMap({});
+			break;
+		}
 		case 'sort': {
 			var sortOrder = $this.attr('data-a-sortorder');
 			scieski.method.tracks.sort(sortOrder);
 			break;
-		}	
+		}
 		default: {
-			console.warn('Nienznana akcja.');
+			console.warn('Nieznana akcja.');
+			return;
+		}
+	}
+});
+
+$('[data-switch]').on('change', function(e) { 
+	$this = $(this);
+	
+	var action = $this.attr('data-switch');
+	
+	switch(action) {   
+		case 'config': {
+			var type = $this.attr('data-s-type');
+			
+			switch(type) {   
+				case 'maptype': {
+					var maptype = $this.val();
+					scieski.method.config.change.mapType(maptype);
+					
+					break;
+				}   
+				default: {
+					console.warn('Nieznana akcja.');
+					return;
+				}
+			}
+			break;
+		}
+		default: {
+			console.warn('Nieznana akcja.');
 			return;
 		}
 	}

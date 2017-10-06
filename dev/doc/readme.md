@@ -11,7 +11,8 @@ scieski {
 			}
 		},
 		dev {
-			perfomence
+			perfomence,
+			actions
 		},
 		language,
         upload {
@@ -38,7 +39,8 @@ scieski {
 	method {
 		show {
 			distance(distance)
-		}
+		},
+		dev(type),
 		tracks {
 			basicStatistics(),
 			sort(sortOrder),
