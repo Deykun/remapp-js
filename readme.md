@@ -1,13 +1,19 @@
 # scieski - rewrite
 
-## http://deykun.boo.pl/lab/scieski/rewrite/ - wersja 0.5 rewrite
+## http://deykun.boo.pl/lab/scieski/rewrite/ - wersja 0.6 rewrite
 
 ## http://deykun.boo.pl/lab/scieski/ - wersja 0.861
 
 ### Rewrite
 Przepisanie strony, zmiana wyglądu.
 
-### Wersja 0.5
+### Wersja 0.6
+- generowanie legend
+- generowanie map z wybranymi legendami: godzina, dzień tygodnia, miesiąc, rok, długość trasy
+- wybór widoku wygenerowanej mapy: widoczne wszystkie trasy lub zapisany wybrany punkt i przybliżenie
+- zmiana ikon 'Material icons' na 'Entypo' (by Daniel Bruce)
+
+#### Wersja 0.5
 - generowanie mapy z wszystkimi trasami
 - możliwość wygenerowania heatmap
 - podmenu trybu debbugowania

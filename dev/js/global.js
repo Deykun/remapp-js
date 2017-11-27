@@ -14,7 +14,6 @@
 //				
 //				https://github.com/Deykun/scieski-js
 //				
-
 scieski = {
     default: {
 		color: {
@@ -22,7 +21,7 @@ scieski = {
             days: ['#f4960f', '#12bcd1', '#179d90', '#52ac57', '#8abd51', '#c4d33e', '#f4ba10'],
             months: ['#12bcd1', '#179d90', '#52ac57', '#8abd51', '#c4d33e', '#f4ba10', '#f4960f', '#f15b2a', '#e03b38', '#9d33b0', '#6c43b4', '#2a93e9'],
             years: ['#f4960f', '#0ba9cc', '#795046', '#9ec83e', '#f8971b', '#db4436', '#4186f0', '#7c3592'],
-            distances: ['#f4960f', '#12bcd1', '#179d90', '#52ac57', '#8abd51', '#c4d33e', '#f4ba10']
+            distances: ['#c4d33e', '#f4ba10', '#f4960f', '#f15b2a', '#e03b38', '#9d33b0', '#6c43b4', '#2a93e9', '#12bcd1', '#179d90', '#52ac57', '#8abd51']
 		},
 		dev: {
 			perfomence: true,
@@ -30,17 +29,36 @@ scieski = {
 		},
 		language: 'pl',
         legend: {
+			type: 'months',
             yearBase: 2010,
-            distanceRanges: [1, 2.5, 5, 10, 15, 25]
+			year: {
+				start: 0,
+				end: 0
+			},
+			distance: {
+				max: 0
+			},
+            distanceRanges: [0.5, 1, 2.5, 5, 7.5, 10, 15, 20, 35, 50, 75, 100]
         },
         upload: { 
-            update: 100,
-			simultaneously: 250
+            update: 35,
+			simultaneously: 45
         },
 		map: {
+			element: false,   
 			type: 'lines',
+			bounds: {
+				fit: false,
+				min: {
+					lat: 0,
+					lng: 0
+				},
+				max: {
+					lat: 0,
+					lng: 0
+				}
+			},
 			settings: {
-				boundsToTracks: false,
 				mapTypeControl: false,
 				disableDefaultUI: true,
 				zoom: 6,
@@ -68,14 +86,47 @@ scieski.method = {
 			var distance = parseFloat(distance).toFixed(2);
 			
 			if (distance >= 0.75) {
-				return parseFloat(distance).toFixed(2)+'km';
+				return parseFloat(distance).toFixed(2)+' km';
 			} else {
-				return parseFloat(distance*1000).toFixed(0)+'m';
+				return parseFloat(distance*1000).toFixed(0)+' m';
 			}
 		}
 	},
 	config: {
 		change: {
+			legedType: function (newtype) {
+				if (scieski.default.dev.actions) {
+					console.log('scieski.method.config.change.legendType(newtype='+newtype+')');
+				}
+				
+				scieski.default.legend.type = newtype;
+				
+				scieski.method.legend.reload(newtype);
+			},
+			mapCenter: function () {  
+				if (scieski.default.dev.actions) {
+					console.log('scieski.method.config.change.mapCenter()');
+				} 
+				
+				if (scieski.default.map.element !== false ) { 
+					scieski.default.map.settings.zoom = scieski.default.map.element.getZoom();
+					scieski.default.map.settings.center.lat = scieski.default.map.element.getCenter().lat();
+					scieski.default.map.settings.center.lng = scieski.default.map.element.getCenter().lng();
+				} else {
+					console.warn('Empty map element.');
+				}
+			},
+			mapLocation: function (newtype) {
+				if (scieski.default.dev.actions) {
+					console.log('scieski.method.config.change.mapLocation(newtype='+newtype+')');
+				}
+				
+				scieski.default.map.bounds.fit = !scieski.default.map.bounds.fit;
+				
+				if (scieski.default.map.bounds.fit === false) {	
+					scieski.method.config.change.mapCenter();
+				}
+			},
 			mapType: function (newtype) {
 				if (scieski.default.dev.actions) {
 					console.log('scieski.method.config.change.mapType(newtype='+newtype+')');
@@ -97,6 +148,119 @@ scieski.method = {
 			console.warn('Unknow dev property : '+type);
 		}
 	},
+	legend: {
+		addLabel: function($legend, name, color) {
+			$legend.find('.range').append('<div style="background-color:'+color+';" data-label="'+name+'"></div>');
+		},
+		reload: function(newtype) {
+			if (scieski.default.dev.actions) {
+				console.log('scieski.method.legend.reload(newtype='+newtype+')');
+			}
+			
+			if (typeof newtype == "undefined" ) {
+				var newtype = scieski.default.legend.type;
+			}
+			
+			var $mapLegend = $('#mainmap').next('.legend');
+			$mapLegend.addClass('hide');
+			
+			
+			var legendLanguage = scieski.default.language;
+			var colors = [],
+				labels = [];
+			
+			switch (newtype) {
+				case 'years':
+					/* Color repeat itself after yearBase + colorsLength */
+					var yearColors = scieski.default.color.years;
+					var colorsLength = yearColors.length;
+					var yearBase = scieski.default.legend.yearBase;
+					
+					var yearStart = scieski.default.legend.year.start;
+					var yearEnd = scieski.default.legend.year.end;
+					
+					var yearToCheck; 
+					if (yearStart == 0) {
+						yearStart = 2016; // first version of Scieski
+						yearEnd = (new Date()).getFullYear();
+					}
+					
+					for (var i = 0, imax = yearEnd - yearStart; i <= imax ; i++) {  
+						yearToCheck = (yearStart + i) - yearBase;
+						if ( yearToCheck >= 0 ) {                            
+							colors.push( yearColors[yearToCheck % colorsLength] );
+							labels.push(yearStart + i);
+						} else {
+							colors.push( yearColors[colorsLength + (yearToCheck % colorsLength)] ); // negative modulo
+							labels.push(yearStart + i);
+						}
+					}
+					
+					/* TO DO min an*/
+					break;
+				case 'months':
+					colors = scieski.default.color.months,
+					labels = scieski.lang.legend.months[legendLanguage];
+					
+					break;
+				case 'days':
+					colorsDays = scieski.default.color.days,
+					labelsDays = scieski.lang.legend.days[legendLanguage];
+					
+					for (var i = 0, imax = colorsDays.length ; i < imax ; i++) {
+						colors.push( colorsDays[i] );
+						labels.push( labelsDays[i] );
+					}
+					
+					/* Sunday is last */				
+					colors.push(colors[0]);
+					colors.shift();
+					labels.push(labels[0]);
+					labels.shift();
+					
+					break;
+				case 'hours':
+					colors = scieski.default.color.hours;
+					for (var i = 0, imax = colors.length ; i < imax ; i++) {
+						labels.push(i+':00');
+					}
+					break;
+				case 'distances':
+					distanceColors = scieski.default.color.distances,
+					distanceRanges = scieski.default.legend.distanceRanges;
+					
+					
+					var distanceMax = scieski.default.legend.distance.max;
+					var showDistance = scieski.method.show.distance;
+					
+					for (var i = 0, imax = distanceRanges.length ; i < imax ; i++) {
+						if ( distanceRanges[i] <= distanceMax ) {
+							labels.push(showDistance(distanceRanges[i]));
+							colors.push(distanceColors[i]);
+						} else {
+							labels.push(showDistance(distanceRanges[i]));
+							colors.push(distanceColors[i]);
+							break;
+						}
+					}
+					
+					break;
+			} 
+			
+			if (colors.length > 0) {
+				$mapLegend.find('.range').empty();
+				var addLabel = scieski.method.legend.addLabel;
+				
+				for (var i = 0, imax = colors.length ; i < imax ; i++) {
+					addLabel($mapLegend, labels[i], colors[i]);
+				}
+			}
+			
+			setTimeout( function () {
+				$mapLegend.removeClass('hide');
+			}, 150);
+		},
+	},
 	tracks: {
 		basicStatistics: function() {
 			var totalDistance = 0;
@@ -105,6 +269,29 @@ scieski.method = {
 			});
 			
 			$('#basicStatistics').empty().append('Całkowity dystans: <strong>'+scieski.method.show.distance(totalDistance)+'</strong>');		
+		},
+		filter: {
+			check: function(textFromInput) {
+				var filterQuery = textFromInput.replace(/ /g, '').split(':');
+//				console.dir(filterQuery);
+				if (filterQuery.length == 2) {
+					switch (filterQuery[0]) {
+						case 'min': 
+							if (filterQuery[1].match(/^[0-9]?[\.[0-9]+]?km$/)) {
+								console.log('kilometry');
+								var filterValue = Number( filterQuery[1].replace('km', '') );
+								console.info('#min'+filterValue+'km');
+							}
+							
+							
+							break;
+						case 'lines':   
+							break;
+						default:
+//							console.log('nieznana');
+					} 
+				}
+			}
 		},
 		sort: function(sortOrder) {
 			if (scieski.default.dev.actions) {
@@ -167,7 +354,7 @@ scieski.method = {
 		},
 		upload: {
 			/* Google maps format of point */
-			createPoint: function (latitude, longitude, altitude, time) {
+			createPoint: function (latitude, longitude, altitude, time) {				
 				return { lat: Number(latitude), lng: Number(longitude), alt: Number(altitude), time: time };
 			},
 			/* Track distance in km,  altitude is being ignored */
@@ -175,11 +362,22 @@ scieski.method = {
 				if (points.length < 2) {
 					return 0;
 				}
+				
+				/* Max and min latitude and longitude */
+				var minLat = points[0].lat,
+					maxLat = points[0].lat,
+					minLng = points[0].lng,
+					maxLng = points[0].lng;
 
 				var totalDistance = 0,
 					earthRadius = 6371; // mean in km
 
 				for (var i = 1, imax = points.length ; i < imax ; i++) {
+					if (points[i].lat == 0 && points[i].lng == 0) {
+						points[i].lat = points[i-1].lat;
+						points[i].lng = points[i-1].lng;
+						continue;
+					}
 					var dLat = ( points[i].lat - points[(i-1)].lat ).toRad();
 					var dLng = ( points[i].lng - points[(i-1)].lng ).toRad();
 
@@ -190,10 +388,28 @@ scieski.method = {
 					var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
 					var pointsDistance = earthRadius * c; // in km
 					totalDistance += pointsDistance;
+					
+					if (minLat > points[i].lat) { minLat = points[i].lat; }
+					if (maxLat < points[i].lat) { maxLat = points[i].lat; }
+					if (minLng > points[i].lng) { minLng = points[i].lng; }
+					if (maxLng < points[i].lng) { maxLng = points[i].lng; }
 				}
 
+				scieski.method.tracks.upload.extendBorder(minLat, minLng);
+				scieski.method.tracks.upload.extendBorder(maxLat, maxLng);
 				return totalDistance;
-			}
+			},
+			extendBorder: function (latitude, longitude) {
+				var minLat = scieski.default.map.bounds.min.lat;
+				var maxLat = scieski.default.map.bounds.max.lat;
+				var minLng = scieski.default.map.bounds.min.lng;
+				var maxLng = scieski.default.map.bounds.max.lng;
+				
+				if (minLat === 0 || minLat > latitude) { scieski.default.map.bounds.min.lat = latitude; }
+				if (maxLat < latitude) { scieski.default.map.bounds.max.lat = latitude; }
+				if (minLng === 0 || minLng > longitude) { scieski.default.map.bounds.min.lng = longitude; }
+				if (maxLng < longitude) { scieski.default.map.bounds.max.lng = longitude; }
+			}			
 		}
 	},
 	gmaps: {
@@ -205,7 +421,16 @@ scieski.method = {
 			/* Overides default mapconfiguration with paramater of the function */
 			var mapConfiguration = $.extend({}, scieski.default.map.settings, config.settings);
 			
-			var map = new google.maps.Map(document.getElementById('onemap'), mapConfiguration);
+			scieski.default.map.element = new google.maps.Map(document.getElementById('mainmap'), mapConfiguration);
+			var map = scieski.default.map.element;
+			
+			/* Map borders */
+			if ( scieski.default.map.bounds.fit === true ) {
+				var bounds = new google.maps.LatLngBounds();
+					bounds.extend({lat : scieski.default.map.bounds.min.lat, lng: scieski.default.map.bounds.min.lng })
+					bounds.extend({lat : scieski.default.map.bounds.max.lat, lng: scieski.default.map.bounds.max.lng })
+					map.fitBounds(bounds);
+			}
 			
 			if ('tracks' in config) { var tracks = config.track; }
 			else { var tracks = scieski.tracks; }
@@ -222,9 +447,11 @@ scieski.method = {
                 default:
                     console.warn('Unknow map type :'+config.dataType)     
             }
+			
+			scieski.method.legend.reload();
 		},
 		drawTracks: function(map, tracks) {
-            var pickColor = scieski.method.gmaps.helper.pickColor('year'); // return function() {};
+            var pickColor = scieski.method.gmaps.helper.pickColor( scieski.default.legend.type ); // return function() {};
             
 			for (var i = 0, imax = tracks.length ; i < imax ; i++) {
                 var track = tracks[i];
@@ -273,7 +500,7 @@ scieski.method = {
                 }
 
                 switch (range) {
-                    case 'year':
+                    case 'years':
                         /* Color repeat itself after yearBase + colorsLength */
                         var colors = scieski.default.color.years,
                             colorsLength = colors.length,
@@ -290,7 +517,7 @@ scieski.method = {
                             }
                         }
                         break;
-                    case 'month':
+                    case 'months':
                         var colors = scieski.default.color.months;
 
                         return function(track) {
@@ -298,7 +525,7 @@ scieski.method = {
                             return colors[monthTrack];
                         }
                         break;
-                    case 'day':
+                    case 'days':
                         var colors = scieski.default.color.days;
 
                         return function(track) {
@@ -306,7 +533,15 @@ scieski.method = {
                             return colors[dayTrack];
                         }
                         break;
-                    case 'distance':
+					case 'hours':
+                        var colors = scieski.default.color.hours;
+
+                        return function(track) {
+                            var hourTrack = Number(new Date( track.date.middle ).getHours());
+                            return colors[hourTrack];
+                        }
+                        break;
+                    case 'distances':
                         var colors = scieski.default.color.distances,
                             distanceRanges = scieski.default.legend.distanceRanges;
 

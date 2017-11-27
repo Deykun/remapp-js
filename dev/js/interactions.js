@@ -102,6 +102,9 @@ $('#add-tracks').on('change', function(e) {
                             points.push( formatPoint );
                         });
 						
+						/* To get bounds of track */
+						distance = calculateDistance(points);
+						
 						$(xmldata).find('Lap > DistanceMeters').each( function () {
 							var tcxFileDistance = (Number( $(this).text() ) / 1000); //in km
 							distance += tcxFileDistance;
@@ -116,7 +119,23 @@ $('#add-tracks').on('change', function(e) {
 					var startTimeInSeconds = Math.round(new Date( points[0].time ) / 1000);
                     
                     var midPoint = Math.floor(points.length / 2);
-                    var endPoint = points.length - 1;
+                    var endPoint = points.length - 1;	
+					
+					/* Extend years range in legend */
+					if ( scieski.default.legend.year.start == 0 ||
+						scieski.default.legend.year.start > Number(new Date( points[0].time ).getFullYear()) ) {
+						scieski.default.legend.year.start = Number(new Date( points[0].time ).getFullYear());
+					}
+					if ( scieski.default.legend.year.end == 0 ||
+						scieski.default.legend.year.end < Number(new Date( points[endPoint].time ).getFullYear()) ) {
+						scieski.default.legend.year.end = Number(new Date( points[endPoint].time ).getFullYear());
+					}
+					
+					/* Extend distance range in legend */
+					if ( scieski.default.legend.distance.max == 0 ||
+						scieski.default.legend.distance.max < distance ) {
+						scieski.default.legend.distance.max = distance;
+					}
                     
 					scieski.tracks[id] = { 
 						id: id, 
@@ -167,18 +186,28 @@ $('[data-action]').on('click', function(e) {
 			var type = $this.attr('data-a-type');
 			scieski.method.dev(type);
 			break;
-		}   
+		}
+		case 'filter': {
+			$('#trackFilter').slideDown(300, function(e) {
+				$(this).find('#inputFilter').trigger( "focus" );
+			});
+			break;
+		}	
 		case 'map': {
 			scieski.method.gmaps.addMap({});
 			break;
-		}
+		}	
 		case 'sort': {
 			var sortOrder = $this.attr('data-a-sortorder');
 			scieski.method.tracks.sort(sortOrder);
 			break;
 		}
+		case 'close': {
+			$this.parents('[data-to-close]').first().slideUp(300);
+			break;
+		}
 		default: {
-			console.warn('Nieznana akcja.');
+			console.warn('Nieznana akcja.'); 
 			return;
 		}
 	}
@@ -194,12 +223,24 @@ $('[data-switch]').on('change', function(e) {
 			var type = $this.attr('data-s-type');
 			
 			switch(type) {   
+				case 'legendtype': {
+					var legendtype = $this.val();
+					scieski.method.config.change.legedType(legendtype);
+					
+					break;
+				}
 				case 'maptype': {
 					var maptype = $this.val();
 					scieski.method.config.change.mapType(maptype);
+					 
+					break;
+				}
+				case 'maplocation': {
+					var maplocation = $this.val();
+					scieski.method.config.change.mapLocation(maplocation);
 					
 					break;
-				}   
+				}
 				default: {
 					console.warn('Nieznana akcja.');
 					return;
@@ -212,4 +253,19 @@ $('[data-switch]').on('change', function(e) {
 			return;
 		}
 	}
-})
+});
+
+$('#inputFilter').on('keypress', function(e) {
+	
+	/* Methods */	
+	var filterCheck = scieski.method.tracks.filter.check,
+		filterApply = scieski.method.tracks.filter.apply;
+	
+	if (e.which == 13) { 
+		var filter = $(this).val();
+		
+		if (filterCheck(filter)) {
+			
+		}
+	}
+}); 

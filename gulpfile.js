@@ -37,7 +37,7 @@ gulp.task('css', function (){
 //html
 gulp.task('html', function () {
     gulp.src(['./dev/index.html'])
-        .pipe(htmlmin({collapseWhitespace: true, removeComments: true}))
+        .pipe(htmlmin({collapseWhitespace: true, removeComments: false}))
         .pipe(gulp.dest('./'));
 });
 

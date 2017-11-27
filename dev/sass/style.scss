@@ -1,13 +1,14 @@
 @charset "UTF-8";
+@import 'lib/iconfont';
 
 /* Colors */
 	$textColor: #333;
 
 	$mainColor: #fff;
 	$mapColor: #E5E5E5;
-	$secondaryColor: $mapColor;
+	$secondaryColor: $mapColor; 
 
-	$activeColor: #d5dc97;
+	$activeColor: #d5dc97; 
 	$loadColor: #97cadc; 
 
 
@@ -56,7 +57,7 @@ p {
 
 body, button {
 	background-color: $mapColor; 
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Encode Sans', sans-serif;
 	color: $textColor;
 }
 
@@ -79,6 +80,7 @@ header {
 		display: inline-block;
 		font-size: 24px;
 		color: $textColor;
+		font-family: 'Josefin Sans', sans-serif;
 		font-weight: 400;
 	}
 
@@ -131,9 +133,21 @@ header {
 			transform: translateY(-50%);
 			z-index: 1;
 			
+			
+			&.hide {	
+				.range {
+					transform: scale(0);
+					opacity: 0;
+				}
+			}
+			
 			.range {
 				cursor: help;
 				margin-bottom: 15px;
+				
+				transform: scale(1);
+				opacity: 1;
+				transition: all .3s;
 				 
 				div {
 					text-align: center;
@@ -218,8 +232,8 @@ header {
 	
 	&::after {
 		position: absolute;		
-		font-family: 'Material Icons';
-		content: '\E566';
+		font-family: 'icomoon';
+		content: '\e99d';
 		color: $activeColor;
 		color: $textColor;
 		font-size: 26px;
@@ -314,13 +328,16 @@ header {
 					padding-bottom: 30px;
 				}
 			}
+			
+			cursor: pointer;
 
 			transition: color $actionTime;
 
 			position: relative;
 
-			& .material-icons {
-				font-size: 30px;
+			& .icon {
+				font-size: 20px;
+				line-height: 30px;
 			}
 
 			@media #{$md} {
@@ -414,6 +431,10 @@ header {
 							transform: translateY(-50%);
 						}
 						
+						.simply-btn {
+							margin-top: 7px;
+						}
+						
                     	display: block;
 						padding: 10px 10px 10px 30px; 
 						
@@ -453,7 +474,7 @@ header {
 					padding: 0 10px;
 					position: relative;
 					
-					.material-icons {
+					.icon {
 						line-height: 50px;
 						height: 50px;
 						width: 36px;
@@ -558,12 +579,12 @@ header {
 							bottom: calc(100% + 5px);
 						}
 						
-						.material-icons:hover::after {
+						.icon:hover::after {
 							width: 36px;
 							height: 36px;
 						}
 						
-						.material-icons:hover + ul,
+						.icon:hover + ul,
 						& ul:hover {
 							opacity: 1;
 							max-height: 200px;
@@ -621,12 +642,12 @@ header {
 							font-size: 14px;
 							margin-top: 14px;
 							&::after {
-								font-family: 'Material Icons';
-								content: '\E567';
+								font-family: 'icomoon';
+								content: '\e929';
 								display: inline-block;
 								position: absolute;
-								margin-left: 15px;
-								font-size: 36px;
+								margin-left: 20px;
+								font-size: 16px;
 
 								transition: all $actionTime;
 							}
@@ -648,10 +669,38 @@ header {
 
 						&:hover {
 							label::after { 
-								font-size: 44px;
+								font-size: 24px;
 							}
 						}
 					}	
+				}
+				
+				#trackFilter {
+					position: absolute;
+					display: none;
+					bottom: 0;
+					left: 0;
+					
+					width: 100%;
+					
+					background-color: $textColor;
+					color: $secondaryColor;
+					padding: 15px;
+					box-shadow: 0 0 15px rgba(0, 0, 0, 0.26);
+					z-index: 13;
+					box-shadow: 60px 0 50px -100px #000;
+					border-left: 0 solid $loadColor;
+										
+					#inputFilter {
+						padding: 3px 10px;
+						width: 50%; 
+						
+						transition: border $actionTime;
+						
+						&:focus {
+							border-left: 10px solid $loadColor;
+						}
+					}
 				}
 				
 				.track {
@@ -662,10 +711,94 @@ header {
 					}
 				}
 			}
+			
+			&.stats { 
+				#basicStatistics {
+					padding: 15px;
+				}
+			}
 		}
 	}
 }
 
+.simply-btn {
+	display: inline-block; 
+	padding: 5px 12px;
+	background-color: $secondaryColor;
+	border-radius: $borderRadius;
+	font-size: 14px;
+	
+	transition: all $actionTime;
+	
+	cursor: pointer;
+	.icon {
+		font-size: 14px;
+		line-height: 10px;
+		vertical-align: middle;
+		margin-right: 5px;
+		border-right: 1px dotted $textColor;
+		padding-right: 7px;
+	}
+	
+	&:hover, &:focus {
+		background-color: $activeColor;
+	}
+	
+	&:active {
+		background-color: $loadColor;
+	}
+}
+
+[data-to-close] {
+	position: relative;
+	
+	[data-action="close"] {
+		&::before {
+			font-family: 'icomoon';
+			content: '\e954';	
+			
+			transition: all ($actionTime/2);
+		}
+		
+		&::after {
+			content: '';
+			display: block;
+			width: 0;
+			height: 0;
+			background-color: $activeColor;
+			border-radius: $borderRadius;
+
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: -1;
+
+			transition: all ($actionTime/2);
+		}	
+
+		&:hover {
+			&::before {
+				color: $textColor;
+			}
+			
+			&::after {
+				width: 20px;
+				height: 20px;
+			}
+		}
+		
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		cursor: pointer;
+	}
+}
+
+
+.work-in-progress {
+	opacity: 0.3; 
+}
 
 /* Animacje */
 @keyframes waiting {
