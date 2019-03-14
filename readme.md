@@ -1,44 +1,42 @@
 # scieski
 
-## http://deykun.boo.pl/lab/scieski/ - wersja 0.861
-
-## Cel
 W założeniu skrypt ma na podstawie tras Endomondo generować mapy których domyślnie serwis ten nie generuje.
 
-### Wersja 0.861
-- możliwość wyboru zakresu dla roku
+## http://deykun.it/lab/scieski/ 
 
-## Wcześniejsze wersje
+![](http://deykun.it/lab/img/ladowanie-tras.gif)
+![](http://deykun.it/lab/img/mapa.gif)
 
-#### Wersja 0.86
-- przygotowanie zakładki "legenda" do opcji zmiany kolorów wybranych elementów
 
-#### Wersja 0.85
-- dodanie zakładki "kompozycja" z możliwością wygenerowania mozaiki map przedstawiajacych trasy dla dni tygodnia
-![](http://deykun.boo.pl/lab/ilustracje/scieski/0.85/kompozycja.gif)
+### Wersja 0.6
+- generowanie legend
+- generowanie map z wybranymi legendami: godzina, dzień tygodnia, miesiąc, rok, długość trasy
+- wybór widoku wygenerowanej mapy: widoczne wszystkie trasy lub zapisany wybrany punkt i przybliżenie
+- zmiana ikon 'Material icons' na 'Entypo' (by Daniel Bruce)
 
-#### Wersja 0.8
-- dodanie animacji i możliwości wyboru mapy dla dnia tygodnia
+#### Wersja 0.5
+- generowanie mapy z wszystkimi trasami
+- możliwość wygenerowania heatmap
+- podmenu trybu debbugowania
 
-#### Wersja 0.75
-- dopasowanie legendy do animacja (wyróżnienie miesiąca)
-- możliwość wyświetlenia wybranego miesiąca w zakładce "legenda"
+#### Wersja 0.4
+- podmenu
+- odwrócenie sortowania
 
-#### Wersja 0.7
-- dodanie zakładki "animacja" z opcją "miesiące" która pokazuje trasy z wybranego miesiąca (z zarysem poprzedniego i następnego miesiąca)
-- możliwość ustawienia szybkości animacji od 0,15s do 5s.
-- dodanie zakładki "legenda" pozwalającej wybrać bezpośrednio jej zakres na miesiąc lub godzine
+#### Wersja 0.35
+- wygląd legendy
+- sortowanie odcinków na liście wg odległości i czasu rozpoczęcia
 
-![](http://deykun.boo.pl/lab/ilustracje/scieski/0.7/animacja.gif)
+#### Wersja 0.3
+- pasek postępu
+- pobiernie dyscypliny
 
-#### Wersja 0.6
-- całkowita zmiana GUI
-- zmiana nazwy z remapp na scieski
-- dodanie przycisku ładującego 20 przykładowych tras
+#### Wersja 0.25
+- analizowanie wielu tras w tym samym czasie
+- obliczanie długości trasy
 
-![](http://deykun.boo.pl/lab/ilustracje/scieski/0.6/legenda.gif)
+#### Wersja 0.2
+- dodawanie tras w formacie .tcx i .gpx bez blokowania przeglądarki
 
-![](http://deykun.boo.pl/lab/ilustracje/scieski/0.6/finder.gif)
-
-#### Wcześniejsze wersje
-Zmiany we wcześniejszych wersjach można sprawdzić w poprzednich wersjach tego pliku.
+#### Wersja 0.1
+- nowy wygląd nawigacji
