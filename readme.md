@@ -1,11 +1,12 @@
-# scieski - rewrite
+# scieski
 
-## http://deykun.boo.pl/lab/scieski/rewrite/ - wersja 0.6 rewrite
+W założeniu skrypt ma na podstawie tras Endomondo generować mapy których domyślnie serwis ten nie generuje.
 
-## http://deykun.boo.pl/lab/scieski/ - wersja 0.861
+## http://deykun.it/lab/scieski/ 
 
-### Rewrite
-Przepisanie strony, zmiana wyglądu.
+![](http://deykun.it/lab/img/ladowanie-tras.gif)
+![](http://deykun.it/lab/img/mapa.gif)
+
 
 ### Wersja 0.6
 - generowanie legend
@@ -17,9 +18,6 @@ Przepisanie strony, zmiana wyglądu.
 - generowanie mapy z wszystkimi trasami
 - możliwość wygenerowania heatmap
 - podmenu trybu debbugowania
-
-![](http://deykun.boo.pl/lab/ilustracje/scieski/rewrite/0.5/progressbar.gif)
-![](http://deykun.boo.pl/lab/ilustracje/scieski/rewrite/0.5/heatmap.gif)
 
 #### Wersja 0.4
 - podmenu
